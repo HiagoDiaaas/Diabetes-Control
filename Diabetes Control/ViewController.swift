@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  Diabetes Control
-//
-//  Created by Marcus Monteiro on 14/10/22.
-//
-
 import UIKit
 
 class ViewController: UIViewController {
@@ -46,9 +39,9 @@ extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-            cell.titleLabel.text = arrayData[indexPath.row].title
+            cell.valueLabel.text = arrayData[indexPath.row].title
             if indexPath.row == 3 {
-                cell.titleLabel?.isHidden = true
+                cell.valueLabel?.isHidden = true
                 
             }
             return cell

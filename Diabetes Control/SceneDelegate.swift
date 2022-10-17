@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  Diabetes Control
-//
-//  Created by Marcus Monteiro on 14/10/22.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
