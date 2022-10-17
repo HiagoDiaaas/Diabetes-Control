@@ -10,8 +10,11 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
 
     @IBOutlet weak var typeLabel: UILabel!
-    @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var valueLabel: UILabel!
+    @IBOutlet weak var iconImageView: UIImageView!
+    @IBOutlet weak var dateAndTimeLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

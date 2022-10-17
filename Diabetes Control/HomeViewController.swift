@@ -18,9 +18,9 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customTableView()
-        
+        navigationController?.navigationBar.barStyle = .black
         let data: [Model] = [Model(title: "20", dateAndTime: "Today", type: "Long"),
-                             Model(title: "43", dateAndTime: "Yesterday", type: "Long"),
+                             Model(title: "43", dateAndTime: "15/10/2022 20:30", type: "Long"),
                              Model(title: "80", dateAndTime: "Monday", type: "Fast"),
                              Model(title: "80", dateAndTime: "Monday", type: "Fast"),
                              Model(title: "80", dateAndTime: "Monday", type: "Fast"),
@@ -31,6 +31,10 @@ class HomeViewController: UIViewController {
                              Model(title: "80", dateAndTime: "Monday", type: "Fast"),
                              Model(title: "80", dateAndTime: "Wednesdat", type: "Long")]
         arrayData = data
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     
@@ -84,10 +88,12 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
             cell.valueLabel.text = arrayData[indexPath.row].title
-            if indexPath.row == 3 {
-                cell.valueLabel?.isHidden = true
-                
-            }
+            cell.dateAndTimeLabel.text = arrayData[indexPath.row].dateAndTime
+            cell.typeLabel.text = arrayData[indexPath.row].type
+//            if indexPath.row == 3 {
+//                cell.valueLabel?.isHidden = true
+//
+//            }
             return cell
         }
         

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
@@ -65,9 +64,10 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="dateAndTimeLabel" destination="cis-I5-dlu" id="MCf-v9-qyv"/>
                 <outlet property="iconImageView" destination="bdl-Me-ZQj" id="GlP-Vc-SXM"/>
                 <outlet property="typeLabel" destination="duF-Cu-k8l" id="aZh-JV-C2x"/>
-                <outlet property="valueLabel" destination="gV5-dK-kyZ" id="Y1D-4D-rht"/>
+                <outlet property="valueLabel" destination="gV5-dK-kyZ" id="1J4-7z-vD8"/>
             </connections>
             <point key="canvasLocation" x="53.846153846153847" y="-77.488151658767762"/>
         </tableViewCell>
