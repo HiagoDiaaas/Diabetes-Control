@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="810" width="390" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wj0-aJ-Q1a">
-                                        <rect key="frame" x="90" y="50.666666666666629" width="200" height="34.333333333333343"/>
+                                        <rect key="frame" x="90" y="96" width="200" height="34.333333333333343"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="aEW-cm-4j0"/>
@@ -39,7 +39,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6C-dc-Fjc">
-                                        <rect key="frame" x="90" y="106" width="200" height="34.333333333333343"/>
+                                        <rect key="frame" x="90" y="154" width="200" height="34.333333333333343"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="6lx-fD-wNH"/>
@@ -53,7 +53,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCU-yB-3Wo">
-                                        <rect key="frame" x="90" y="161.33333333333337" width="200" height="34.333333333333343"/>
+                                        <rect key="frame" x="90" y="209.33333333333337" width="200" height="34.333333333333343"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="l1l-Pu-DM6"/>
@@ -67,7 +67,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkg-3A-fDQ">
-                                        <rect key="frame" x="90" y="216.66666666666674" width="200" height="34.333333333333343"/>
+                                        <rect key="frame" x="90" y="268.33333333333326" width="200" height="34.333333333333314"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Rsa-ua-qph"/>
@@ -80,20 +80,28 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose an event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1V2-Lt-JGy">
+                                        <rect key="frame" x="94" y="30" width="202" height="34"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="1Ve-Gd-e20"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="GCU-yB-3Wo" secondAttribute="leading" id="2pA-jN-2Wn"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="cJG-7k-aIg" secondAttribute="leading" constant="90" id="FDP-8B-Jih"/>
+                                    <constraint firstItem="Wj0-aJ-Q1a" firstAttribute="top" secondItem="1V2-Lt-JGy" secondAttribute="bottom" constant="32" id="I3G-Aw-q4H"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="pkg-3A-fDQ" secondAttribute="leading" id="Vyn-f7-TyC"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="trailing" secondItem="pkg-3A-fDQ" secondAttribute="trailing" id="XBF-b2-TDX"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="trailing" secondItem="GCU-yB-3Wo" secondAttribute="trailing" id="XZ0-ik-lsr"/>
                                     <constraint firstItem="GCU-yB-3Wo" firstAttribute="top" secondItem="A6C-dc-Fjc" secondAttribute="bottom" constant="21.000000000000028" id="XtA-4g-tNo"/>
-                                    <constraint firstItem="pkg-3A-fDQ" firstAttribute="top" secondItem="GCU-yB-3Wo" secondAttribute="bottom" constant="20.999999999999915" id="Ykg-AU-sZv"/>
+                                    <constraint firstItem="pkg-3A-fDQ" firstAttribute="top" secondItem="GCU-yB-3Wo" secondAttribute="bottom" constant="24.666666666666657" id="Ykg-AU-sZv"/>
+                                    <constraint firstItem="1V2-Lt-JGy" firstAttribute="centerX" secondItem="cJG-7k-aIg" secondAttribute="centerX" id="hNL-im-twu"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="Wj0-aJ-Q1a" secondAttribute="leading" id="sFX-hf-Dcz"/>
-                                    <constraint firstItem="A6C-dc-Fjc" firstAttribute="top" secondItem="Wj0-aJ-Q1a" secondAttribute="bottom" constant="21.000000000000028" id="sIQ-Vu-ZyB"/>
-                                    <constraint firstItem="A6C-dc-Fjc" firstAttribute="top" secondItem="cJG-7k-aIg" secondAttribute="top" constant="106" id="vr1-yt-dQA"/>
+                                    <constraint firstItem="A6C-dc-Fjc" firstAttribute="top" secondItem="Wj0-aJ-Q1a" secondAttribute="bottom" constant="23.666666666666657" id="sIQ-Vu-ZyB"/>
+                                    <constraint firstItem="A6C-dc-Fjc" firstAttribute="top" secondItem="cJG-7k-aIg" secondAttribute="top" constant="154" id="vr1-yt-dQA"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="trailing" secondItem="Wj0-aJ-Q1a" secondAttribute="trailing" id="wbq-q5-w5p"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>

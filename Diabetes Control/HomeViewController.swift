@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
             }
         } else {
             UIView.animate(withDuration: 0.1, animations: {
-                self.heightConstraint.constant = 300
+                self.heightConstraint.constant = 400
                 self.view.layoutIfNeeded()
             }) {(status) in
                 self.isBottomSheetShown = true
