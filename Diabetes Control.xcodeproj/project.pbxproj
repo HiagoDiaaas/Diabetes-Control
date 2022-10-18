@@ -15,6 +15,7 @@
 		8DB51D0128F9F598004CA34C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51CFF28F9F598004CA34C /* LaunchScreen.storyboard */; };
 		8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */; };
 		8DB51D0B28F9F66E004CA34C /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */; };
+		F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */; };
 		F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36C9A7E28F9FA51003AEA13 /* Model.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		8DB51D0228F9F598004CA34C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F36C9A7E28F9FA51003AEA13 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,7 @@
 				8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */,
 				8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */,
 				F36C9A7E28F9FA51003AEA13 /* Model.swift */,
+				F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */,
 			);
 			path = "Diabetes Control";
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 				F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */,
 				8DB51CF928F9F596004CA34C /* HomeViewController.swift in Sources */,
 				8DB51CF528F9F596004CA34C /* AppDelegate.swift in Sources */,
+				F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */,
 				8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */,
 				8DB51CF728F9F596004CA34C /* SceneDelegate.swift in Sources */,
 			);

@@ -20,8 +20,8 @@
                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="l3y-Zy-8Vg">
                         <rect key="frame" x="20" y="5" width="350" height="90"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="syringe.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bdl-Me-ZQj">
-                                <rect key="frame" x="0.0" y="4.3333333333333357" width="81" height="81.666666666666657"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bdl-Me-ZQj">
+                                <rect key="frame" x="0.0" y="4.6666666666666643" width="81" height="81"/>
                                 <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bdl-Me-ZQj" secondAttribute="height" multiplier="1:1" id="5QL-6v-wTb"/>
@@ -74,7 +74,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="syringe.fill" catalog="system" width="128" height="115"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
