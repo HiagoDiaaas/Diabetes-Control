@@ -12,6 +12,7 @@ class HomeViewController: UIViewController {
     
     var arrayData: [Model] = []
     var isBottomSheetShown = false
+
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -133,13 +134,22 @@ extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
             cell.iconImageView.image = arrayData[indexPath.row].iconImage
-            cell.valueLabel.text = arrayData[indexPath.row].title
+            if arrayData[indexPath.row].iconImage == UIImage(systemName: "syringe.fill") {
+                cell.valueLabel.text = "\(arrayData[indexPath.row].title)U"
+            }
+            if arrayData[indexPath.row].iconImage == UIImage(systemName: "drop.fill") {
+                cell.valueLabel.text = "\(arrayData[indexPath.row].title)mg/dl"
+            }
+            if arrayData[indexPath.row].iconImage == UIImage(systemName: "figure.run") {
+                cell.valueLabel.text = "\(arrayData[indexPath.row].title)min"
+            }
+            if arrayData[indexPath.row].iconImage == UIImage(systemName: "fork.knife.circle.fill") {
+                cell.valueLabel.text = "\(arrayData[indexPath.row].title)g"
+                cell.typeLabel?.isHidden = true
+            }
             cell.dateAndTimeLabel.text = arrayData[indexPath.row].dateAndTime
             cell.typeLabel.text = arrayData[indexPath.row].type
-//            if indexPath.row == 3 {
-//                cell.valueLabel?.isHidden = true
-//
-//            }
+
             return cell
         }
             
