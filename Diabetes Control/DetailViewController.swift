@@ -15,7 +15,12 @@ class DetailViewController: UIViewController {
     
     weak var delegate: DetailViewControllerDelegate?
     var image: UIImage!
+    var bloodSugarOptions = [String]()
+    let insulinOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+    let exerciseOptions = ["Light", "Moderate", "Intense"]
     
+    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var iconImage: UIImageView!
     @IBOutlet weak var valueTextField: UITextField!
     @IBOutlet weak var saveButton: UIButton!
@@ -28,8 +33,10 @@ class DetailViewController: UIViewController {
         saveButton.isEnabled = false
         iconImage.image = image
         navigationController?.navigationBar.barStyle = .black
-       
+        myDatePicker.overrideUserInterfaceStyle = .dark
         
+        pickerView.dataSource = self
+        pickerView.delegate = self
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -58,5 +65,24 @@ extension DetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         valueTextField.resignFirstResponder()
         return false
+    }
+}
+
+
+extension DetailViewController: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return bloodSugarOptions.count
+    }
+    
+    
+}
+
+extension DetailViewController: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return bloodSugarOptions[row]
     }
 }

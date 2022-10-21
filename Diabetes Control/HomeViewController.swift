@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
         let data: [Model] = [Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "20", dateAndTime: "Today", type: "Long"),        Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "43", dateAndTime: "15/10/2022 20:30", type: "Long"),
                              Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "80", dateAndTime: "Monday", type: "Fast")]
         arrayData = data
+        //        if let myArray = NSKeyedUnarchiver.unarchivedObject(ofClass: <#T##NSCoding.Protocol#>, from: <#T##Data#>)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -31,11 +32,13 @@ class HomeViewController: UIViewController {
     // MARK: @IBActions
     @IBAction func buttonSugarTapped(_ sender: Any) {
         self.heightConstraint.constant = 0
+        self.isBottomSheetShown = false
        
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Blood Sugar"
+        vc.bloodSugarOptions = ["Before Meal", "After Meal"]
         vc.image = UIImage(systemName: "drop.fill")
         navigationController?.pushViewController(vc, animated: true)
         
@@ -107,6 +110,13 @@ extension HomeViewController: DetailViewControllerDelegate {
         self.arrayData.append(data)
         
         // TODO: Save to user defaults / core data
+        //        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
+        //        if let dataForArray = try? NSKeyedArchiver.archivedData(withRootObject: self.arrayData, requiringSecureCoding: true) {
+        //            archiver.encode(dataForArray, forKey: "arrayData")
+        //        }
+        //        let data = archiver.encodedData
+
+
         
         self.homeTableView.reloadData()
     }
