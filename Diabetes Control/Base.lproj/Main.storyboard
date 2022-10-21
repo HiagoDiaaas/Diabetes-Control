@@ -39,7 +39,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="buttonSugarTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1wn-eI-wr7"/>
+                                            <action selector="bloodSugarButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TPy-7e-UBz"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A6C-dc-Fjc">
@@ -55,6 +55,9 @@
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="insulinButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8L5-8f-z0c"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCU-yB-3Wo">
                                         <rect key="frame" x="90" y="209.33333333333337" width="200" height="34.333333333333343"/>
@@ -69,6 +72,9 @@
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="carbsButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PUB-Tf-Sb8"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkg-3A-fDQ">
                                         <rect key="frame" x="90" y="268.33333333333337" width="200" height="34.333333333333314"/>
@@ -83,6 +89,9 @@
                                                 <integer key="value" value="20"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="exerciseButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ifR-p7-REg"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose an event" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1V2-Lt-JGy">
                                         <rect key="frame" x="94" y="30" width="202" height="34"/>

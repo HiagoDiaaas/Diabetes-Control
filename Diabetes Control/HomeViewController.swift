@@ -30,7 +30,7 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: @IBActions
-    @IBAction func buttonSugarTapped(_ sender: Any) {
+    @IBAction func bloodSugarButtonTapped(_ sender: Any) {
         self.heightConstraint.constant = 0
         self.isBottomSheetShown = false
        
@@ -38,10 +38,50 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Blood Sugar"
-        vc.bloodSugarOptions = ["Before Meal", "After Meal"]
+        vc.pickerViewOptions = ["Before Meal", "After Meal"]
         vc.image = UIImage(systemName: "drop.fill")
         navigationController?.pushViewController(vc, animated: true)
         
+    }
+    
+    @IBAction func insulinButtonTapped(_ sender: Any) {
+        self.heightConstraint.constant = 0
+        self.isBottomSheetShown = false
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        vc.delegate = self
+        vc.title = "Insulin"
+        vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+        vc.image = UIImage(systemName: "syringe.fill")
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func carbsButtonTapped(_ sender: Any) {
+        self.heightConstraint.constant = 0
+        self.isBottomSheetShown = false
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        vc.delegate = self
+        vc.title = "Carbs"
+        vc.pickerViewOptions = ["none"]
+        vc.image = UIImage(systemName: "fork.knife.circle.fill")
+        navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+    @IBAction func exerciseButtonTapped(_ sender: Any) {
+        self.heightConstraint.constant = 0
+        self.isBottomSheetShown = false
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        vc.delegate = self
+        vc.title = "Exercise"
+        vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+        vc.image = UIImage(systemName: "figure.run")
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func openEventMenu(_ sender: Any) {

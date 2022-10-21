@@ -15,11 +15,9 @@ class DetailViewController: UIViewController {
     
     weak var delegate: DetailViewControllerDelegate?
     var image: UIImage!
-    var bloodSugarOptions = [String]()
-    let insulinOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
-    let exerciseOptions = ["Light", "Moderate", "Intense"]
+    var pickerViewOptions = [String]()
     
-    @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var pickerView: UIPickerView?
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var iconImage: UIImageView!
     @IBOutlet weak var valueTextField: UITextField!
@@ -35,8 +33,8 @@ class DetailViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
         myDatePicker.overrideUserInterfaceStyle = .dark
         
-        pickerView.dataSource = self
-        pickerView.delegate = self
+        pickerView?.dataSource = self
+        pickerView?.delegate = self
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -75,7 +73,7 @@ extension DetailViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return bloodSugarOptions.count
+        return pickerViewOptions.count
     }
     
     
@@ -83,6 +81,7 @@ extension DetailViewController: UIPickerViewDataSource {
 
 extension DetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return bloodSugarOptions[row]
+        return pickerViewOptions[row]
+        
     }
 }
