@@ -23,7 +23,7 @@
                                 <color key="backgroundColor" systemColor="labelColor"/>
                             </tableView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cJG-7k-aIg">
-                                <rect key="frame" x="0.0" y="410" width="390" height="400"/>
+                                <rect key="frame" x="0.0" y="810" width="390" height="0.0"/>
                                 <subviews>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wj0-aJ-Q1a">
                                         <rect key="frame" x="90" y="96" width="200" height="34.333333333333343"/>
@@ -77,7 +77,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pkg-3A-fDQ">
-                                        <rect key="frame" x="90" y="268.33333333333337" width="200" height="34.333333333333314"/>
+                                        <rect key="frame" x="90" y="268.33333333333326" width="200" height="34.333333333333314"/>
                                         <color key="backgroundColor" systemColor="labelColor"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="Rsa-ua-qph"/>
@@ -102,7 +102,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="400" id="1Ve-Gd-e20"/>
+                                    <constraint firstAttribute="height" id="1Ve-Gd-e20"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="GCU-yB-3Wo" secondAttribute="leading" id="2pA-jN-2Wn"/>
                                     <constraint firstItem="A6C-dc-Fjc" firstAttribute="leading" secondItem="cJG-7k-aIg" secondAttribute="leading" constant="90" id="FDP-8B-Jih"/>
                                     <constraint firstItem="Wj0-aJ-Q1a" firstAttribute="top" secondItem="1V2-Lt-JGy" secondAttribute="bottom" constant="32" id="I3G-Aw-q4H"/>
@@ -259,6 +259,8 @@
                         <outlet property="myDatePicker" destination="QHH-RT-gwm" id="GJi-Tk-LPp"/>
                         <outlet property="pickerView" destination="MWC-pD-EFG" id="NfA-3j-mBL"/>
                         <outlet property="saveButton" destination="btu-tj-XH4" id="Ekj-Bb-F12"/>
+                        <outlet property="typeLabel" destination="j8g-h5-Ma2" id="zJu-2a-kxk"/>
+                        <outlet property="valueLabel" destination="kCg-40-uTa" id="ZKk-Xc-qck"/>
                         <outlet property="valueTextField" destination="OWr-CW-6mT" id="Dq2-pe-s3r"/>
                     </connections>
                 </viewController>

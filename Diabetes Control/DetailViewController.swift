@@ -16,7 +16,12 @@ class DetailViewController: UIViewController {
     weak var delegate: DetailViewControllerDelegate?
     var image: UIImage!
     var pickerViewOptions = [String]()
+    var eventValue: String!
+    var eventType: String!
+    var isPickerViewHidden = false
     
+    @IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var pickerView: UIPickerView?
     @IBOutlet weak var myDatePicker: UIDatePicker!
     @IBOutlet weak var iconImage: UIImageView!
@@ -33,8 +38,12 @@ class DetailViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
         myDatePicker.overrideUserInterfaceStyle = .dark
         
+        valueLabel.text = eventValue
+        typeLabel.text = eventType
+        
         pickerView?.dataSource = self
         pickerView?.delegate = self
+        pickerView?.isHidden = isPickerViewHidden
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

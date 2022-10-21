@@ -38,6 +38,8 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Blood Sugar"
+        vc.eventType = "Moment"
+        vc.eventValue = "Value in mg/dL"
         vc.pickerViewOptions = ["Before Meal", "After Meal"]
         vc.image = UIImage(systemName: "drop.fill")
         navigationController?.pushViewController(vc, animated: true)
@@ -52,6 +54,8 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Insulin"
+        vc.eventType = "Type"
+        vc.eventValue = "Value in U"
         vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
         vc.image = UIImage(systemName: "syringe.fill")
         navigationController?.pushViewController(vc, animated: true)
@@ -65,7 +69,8 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Carbs"
-        vc.pickerViewOptions = ["none"]
+        vc.eventValue = "Value in Grams"
+        vc.isPickerViewHidden = true
         vc.image = UIImage(systemName: "fork.knife.circle.fill")
         navigationController?.pushViewController(vc, animated: true)
         
@@ -79,6 +84,8 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Exercise"
+        vc.eventType = "Intensity"
+        vc.eventValue = "Duration in Minutes"
         vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
         vc.image = UIImage(systemName: "figure.run")
         navigationController?.pushViewController(vc, animated: true)
@@ -160,6 +167,5 @@ extension HomeViewController: DetailViewControllerDelegate {
         
         self.homeTableView.reloadData()
     }
-    
     
 }
