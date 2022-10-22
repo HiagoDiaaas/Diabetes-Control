@@ -162,8 +162,8 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 extension HomeViewController: DetailViewControllerDelegate {
-    func saveData(imageIcon: UIImage, value: String) {
-        let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: "Today", type: "Long")
+    func saveData(dateValue: String, imageIcon: UIImage, value: String) {
+        let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: "Long")
         self.arrayData.append(data)
         
         // TODO: Save to user defaults / core data

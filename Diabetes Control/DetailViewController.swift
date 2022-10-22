@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
-    func saveData(imageIcon: UIImage, value: String)
+    func saveData(dateValue: String, imageIcon: UIImage, value: String)
 }
 
 class DetailViewController: UIViewController {
@@ -38,6 +38,7 @@ class DetailViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
         myDatePicker.overrideUserInterfaceStyle = .dark
         
+        
         valueLabel.text = eventValue
         typeLabel.text = eventType
         
@@ -61,8 +62,11 @@ class DetailViewController: UIViewController {
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+        
         if let text = valueTextField.text {
-            delegate?.saveData(imageIcon: image, value: text)
+            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date), imageIcon: image, value: text)
             self.navigationController?.popViewController(animated: true)
         }
     }
