@@ -72,6 +72,7 @@ class HomeViewController: UIViewController {
         vc.title = "Carbs"
         vc.eventValue = "Value in Grams"
         vc.isPickerViewHidden = true
+        vc.pickerViewOptions = [""]
         vc.image = UIImage(systemName: "fork.knife.circle.fill")
         navigationController?.pushViewController(vc, animated: true)
         
@@ -162,8 +163,8 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 extension HomeViewController: DetailViewControllerDelegate {
-    func saveData(dateValue: String, imageIcon: UIImage, value: String) {
-        let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: "Long")
+    func saveData(dateValue: String, imageIcon: UIImage, value: String, type: String) {
+        let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: type)
         self.arrayData.append(data)
         
         // TODO: Save to user defaults / core data

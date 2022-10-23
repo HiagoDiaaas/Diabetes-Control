@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
-    func saveData(dateValue: String, imageIcon: UIImage, value: String)
+    func saveData(dateValue: String, imageIcon: UIImage, value: String, type: String)
 }
 
 class DetailViewController: UIViewController {
@@ -19,6 +19,9 @@ class DetailViewController: UIViewController {
     var eventValue: String!
     var eventType: String!
     var isPickerViewHidden = false
+    var pickerIdentifier: String?
+
+    
     
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
@@ -45,6 +48,7 @@ class DetailViewController: UIViewController {
         pickerView?.dataSource = self
         pickerView?.delegate = self
         pickerView?.isHidden = isPickerViewHidden
+  
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -66,7 +70,7 @@ class DetailViewController: UIViewController {
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         
         if let text = valueTextField.text {
-            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date), imageIcon: image, value: text)
+            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date), imageIcon: image, value: text, type: pickerIdentifier ?? pickerViewOptions[0])
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -79,8 +83,8 @@ extension DetailViewController: UITextFieldDelegate {
     }
 }
 
-
-extension DetailViewController: UIPickerViewDataSource {
+extension DetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -89,12 +93,13 @@ extension DetailViewController: UIPickerViewDataSource {
         return pickerViewOptions.count
     }
     
-    
-}
-
-extension DetailViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerViewOptions[row]
         
     }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickerIdentifier = pickerViewOptions[row] as String
+    }
+    
 }
