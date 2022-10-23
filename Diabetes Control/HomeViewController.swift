@@ -134,22 +134,22 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-            cell.iconImageView.image = arrayData[indexPath.row].iconImage
-            if arrayData[indexPath.row].iconImage == UIImage(systemName: "syringe.fill") {
-                cell.valueLabel.text = "\(arrayData[indexPath.row].title)U"
+            cell.iconImageView.image = arrayData.reversed()[indexPath.row].iconImage
+            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "syringe.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)U"
             }
-            if arrayData[indexPath.row].iconImage == UIImage(systemName: "drop.fill") {
-                cell.valueLabel.text = "\(arrayData[indexPath.row].title)mg/dl"
+            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "drop.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)mg/dl"
             }
-            if arrayData[indexPath.row].iconImage == UIImage(systemName: "figure.run") {
-                cell.valueLabel.text = "\(arrayData[indexPath.row].title)min"
+            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "figure.run") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)min"
             }
-            if arrayData[indexPath.row].iconImage == UIImage(systemName: "fork.knife.circle.fill") {
-                cell.valueLabel.text = "\(arrayData[indexPath.row].title)g"
-                cell.typeLabel?.isHidden = true
+            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "fork.knife.circle.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)g"
+                
             }
-            cell.dateAndTimeLabel.text = arrayData[indexPath.row].dateAndTime
-            cell.typeLabel.text = arrayData[indexPath.row].type
+            cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
+            cell.typeLabel.text = arrayData.reversed()[indexPath.row].type
 
             return cell
         }
