@@ -134,7 +134,33 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UITableViewDataSource {
+extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        homeTableView.deselectRow(at: indexPath, animated: true)
+        let item = arrayData.reversed()[indexPath.row]
+        
+        
+        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
+        
+       
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: {_ in
+            
+//        CODE TO EDIT THE EVENT
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: {[weak self] _ in
+            self?.deleteItem(item: item)
+        }))
+        
+        present(sheet, animated: true)
+            
+       
+        
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
             return 1
@@ -170,9 +196,6 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-extension HomeViewController: UITableViewDelegate {
-    
-}
 
 extension HomeViewController: DetailViewControllerDelegate {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String) {

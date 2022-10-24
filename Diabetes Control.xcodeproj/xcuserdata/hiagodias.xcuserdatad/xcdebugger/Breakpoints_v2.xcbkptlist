@@ -14,8 +14,8 @@
             filePath = "Diabetes Control/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "saveData(dateValue:value:type:sfSimbolString:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -92,8 +92,8 @@
             filePath = "Diabetes Control/HomeViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "180"
+            endingLineNumber = "180"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
