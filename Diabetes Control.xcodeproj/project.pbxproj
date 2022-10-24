@@ -15,6 +15,9 @@
 		8DB51D0128F9F598004CA34C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51CFF28F9F598004CA34C /* LaunchScreen.storyboard */; };
 		8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */; };
 		8DB51D0B28F9F66E004CA34C /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */; };
+		F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */; };
+		F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */; };
+		F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */; };
 		F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */; };
 		F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36C9A7E28F9FA51003AEA13 /* Model.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +33,9 @@
 		8DB51D0228F9F598004CA34C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		F32893942906ABB100EA00CA /* EventModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EventModel.xcdatamodel; sourceTree = "<group>"; };
+		F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F36C9A7E28F9FA51003AEA13 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +70,7 @@
 		8DB51CF328F9F596004CA34C /* Diabetes Control */ = {
 			isa = PBXGroup;
 			children = (
+				F328939F2906B8D100EA00CA /* Entity */,
 				8DB51CF428F9F596004CA34C /* AppDelegate.swift */,
 				8DB51CF628F9F596004CA34C /* SceneDelegate.swift */,
 				8DB51CF828F9F596004CA34C /* HomeViewController.swift */,
@@ -75,8 +82,18 @@
 				8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */,
 				F36C9A7E28F9FA51003AEA13 /* Model.swift */,
 				F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */,
+				F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */,
 			);
 			path = "Diabetes Control";
+			sourceTree = "<group>";
+		};
+		F328939F2906B8D100EA00CA /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */,
+				F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,8 +170,11 @@
 			files = (
 				F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */,
 				8DB51CF928F9F596004CA34C /* HomeViewController.swift in Sources */,
+				F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */,
+				F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */,
 				8DB51CF528F9F596004CA34C /* AppDelegate.swift in Sources */,
 				F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */,
+				F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */,
 				8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */,
 				8DB51CF728F9F596004CA34C /* SceneDelegate.swift in Sources */,
 			);
@@ -372,6 +392,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F32893942906ABB100EA00CA /* EventModel.xcdatamodel */,
+			);
+			currentVersion = F32893942906ABB100EA00CA /* EventModel.xcdatamodel */;
+			path = EventModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8DB51CE928F9F596004CA34C /* Project object */;
 }

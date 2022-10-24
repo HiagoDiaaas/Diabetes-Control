@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
-    func saveData(dateValue: String, imageIcon: UIImage, value: String, type: String)
+    func saveData(dateValue: String, value: String, type: String, sfSimbolString: String)
 }
 
 class DetailViewController: UIViewController {
@@ -20,6 +20,7 @@ class DetailViewController: UIViewController {
     var eventType: String!
     var isPickerViewHidden = false
     var pickerIdentifier: String?
+    var sfSymbolIdentifier: String!
 
     
     
@@ -70,7 +71,7 @@ class DetailViewController: UIViewController {
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         
         if let text = valueTextField.text {
-            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date), imageIcon: image, value: text, type: pickerIdentifier ?? pickerViewOptions[0])
+            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date), value: text, type: pickerIdentifier ?? pickerViewOptions[0], sfSimbolString: sfSymbolIdentifier)
             self.navigationController?.popViewController(animated: true)
         }
     }

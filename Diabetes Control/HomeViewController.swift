@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 
 class HomeViewController: UIViewController {
     
@@ -10,19 +11,24 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var homeTableView: UITableView!
     @IBOutlet weak var bloodSugarButton: UIButton!
     
-    var arrayData: [Model] = []
+    var arrayData = [EventItem]()
+    
+    //var arrayData: [Model] = []
     var isBottomSheetShown = false
 
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        getAllItems()
+        
         customTableView()
         navigationController?.navigationBar.barStyle = .black
         
-        let data: [Model] = [Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "20", dateAndTime: "Today", type: "Long"),        Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "43", dateAndTime: "15/10/2022 20:30", type: "Long"),
-                             Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "80", dateAndTime: "Monday", type: "Fast")]
-        arrayData = data
+//        let data: [Model] = [Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "20", dateAndTime: "Today", type: "Long"),        Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "43", dateAndTime: "15/10/2022 20:30", type: "Long"),
+//                             Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "80", dateAndTime: "Monday", type: "Fast")]
+//        arrayData = data
         //        if let myArray = NSKeyedUnarchiver.unarchivedObject(ofClass: <#T##NSCoding.Protocol#>, from: <#T##Data#>)
     }
     
@@ -42,7 +48,8 @@ class HomeViewController: UIViewController {
         vc.eventType = "Moment"
         vc.eventValue = "Value in mg/dL"
         vc.pickerViewOptions = ["Before Meal", "After Meal"]
-        vc.image = UIImage(systemName: "drop.fill")
+        vc.sfSymbolIdentifier = "drop.fill"
+        vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
         navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -58,7 +65,8 @@ class HomeViewController: UIViewController {
         vc.eventType = "Type"
         vc.eventValue = "Value in U"
         vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
-        vc.image = UIImage(systemName: "syringe.fill")
+        vc.sfSymbolIdentifier = "syringe.fill"
+        vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -73,7 +81,8 @@ class HomeViewController: UIViewController {
         vc.eventValue = "Value in Grams"
         vc.isPickerViewHidden = true
         vc.pickerViewOptions = [""]
-        vc.image = UIImage(systemName: "fork.knife.circle.fill")
+        vc.sfSymbolIdentifier = "fork.knife.circle.fill"
+        vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
         navigationController?.pushViewController(vc, animated: true)
         
     }
@@ -89,7 +98,8 @@ class HomeViewController: UIViewController {
         vc.eventType = "Intensity"
         vc.eventValue = "Duration in Minutes"
         vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
-        vc.image = UIImage(systemName: "figure.run")
+        vc.sfSymbolIdentifier = "figure.run"
+        vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -134,19 +144,21 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-            cell.iconImageView.image = arrayData.reversed()[indexPath.row].iconImage
-            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "syringe.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)U"
+              let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+              cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
+            
+            if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
             }
-            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "drop.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)mg/dl"
+            if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)mg/dl"
             }
-            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "figure.run") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)min"
+            if cell.iconImageView.image == UIImage(systemName: "figure.run") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)min"
             }
-            if arrayData.reversed()[indexPath.row].iconImage == UIImage(systemName: "fork.knife.circle.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title)g"
-                
+            if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
+                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)g"
+
             }
             cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
             cell.typeLabel.text = arrayData.reversed()[indexPath.row].type
@@ -163,9 +175,10 @@ extension HomeViewController: UITableViewDelegate {
 }
 
 extension HomeViewController: DetailViewControllerDelegate {
-    func saveData(dateValue: String, imageIcon: UIImage, value: String, type: String) {
-        let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: type)
-        self.arrayData.append(data)
+    func saveData(dateValue: String, value: String, type: String, sfSimbolString: String) {
+        //let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: type)
+        //self.arrayData.append(data)
+        createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
         
         // TODO: Save to user defaults / core data
         //        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
@@ -178,5 +191,87 @@ extension HomeViewController: DetailViewControllerDelegate {
         
         self.homeTableView.reloadData()
     }
+    
+    // MARK: CORE DATA
+
+    func getAllItems() {
+        do {
+            arrayData = try context.fetch(EventItem.fetchRequest())
+            
+            DispatchQueue.main.async {
+                self.homeTableView.reloadData()
+            }
+            
+        
+        }
+        catch {
+            
+        }
+        
+        
+    }
+    
+    func createItem(sfSymbolIdentifier: String, title: String, dateAndTime: String, type: String) {
+        let newItem = EventItem(context: context)
+        newItem.sfSymbolIdentifier = sfSymbolIdentifier
+        newItem.title = title
+        newItem.dateAndTime = dateAndTime
+        newItem.type = type
+        do {
+            try context.save()
+            getAllItems()
+        }
+        catch {
+            
+        }
+        
+    }
+    
+    func deleteItem(item: EventItem) {
+        context.delete(item)
+        
+        do {
+            try context.save()
+            getAllItems()
+        }
+        catch {
+            
+        }
+        
+    }
+    
+    func updateItem(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String) {
+        item.sfSymbolIdentifier = newSfSymbolIdentifier
+        item.title = newTitle
+        item.dateAndTime = newDateAndTime
+        item.type = newType
+        
+        
+        do {
+            try context.save()
+            getAllItems()
+        }
+        catch {
+            
+        }
+    }
+    
+    
+    func resetAllRecords(in EventItem : String)
+        {
+
+            
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: EventItem)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+            do
+            {
+                try context.execute(deleteRequest)
+                try context.save()
+            }
+            catch
+            {
+                print ("There was an error")
+            }
+        }
     
 }
