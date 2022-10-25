@@ -13,7 +13,6 @@ class HomeViewController: UIViewController {
     
     var arrayData = [EventItem]()
     
-    //var arrayData: [Model] = []
     var isBottomSheetShown = false
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -26,10 +25,6 @@ class HomeViewController: UIViewController {
         customTableView()
         navigationController?.navigationBar.barStyle = .black
         
-//        let data: [Model] = [Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "20", dateAndTime: "Today", type: "Long"),        Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "43", dateAndTime: "15/10/2022 20:30", type: "Long"),
-//                             Model(iconImage: UIImage(systemName: "syringe.fill")!, title: "80", dateAndTime: "Monday", type: "Fast")]
-//        arrayData = data
-        //        if let myArray = NSKeyedUnarchiver.unarchivedObject(ofClass: <#T##NSCoding.Protocol#>, from: <#T##Data#>)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -110,7 +105,7 @@ class HomeViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }) {(status) in
                 self.isBottomSheetShown = false
-                //completion code
+                
             }
         } else {
             UIView.animate(withDuration: 0.1, animations: {
@@ -118,7 +113,7 @@ class HomeViewController: UIViewController {
                 self.view.layoutIfNeeded()
             }) {(status) in
                 self.isBottomSheetShown = true
-                //completion code
+               
             }
         }
     }
@@ -138,12 +133,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
+        
         let item = arrayData.reversed()[indexPath.row]
         
         
         let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
         
-       
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: {_ in
             
@@ -155,10 +150,6 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         }))
         
         present(sheet, animated: true)
-            
-       
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -170,8 +161,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-              let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
-              cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
+            let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+            cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
             
             if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
                 cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
@@ -196,27 +187,15 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-
 extension HomeViewController: DetailViewControllerDelegate {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String) {
-        //let data: Model = Model(iconImage: imageIcon, title: value, dateAndTime: dateValue, type: type)
-        //self.arrayData.append(data)
         createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
-        
-        // TODO: Save to user defaults / core data
-        //        let archiver = NSKeyedArchiver(requiringSecureCoding: true)
-        //        if let dataForArray = try? NSKeyedArchiver.archivedData(withRootObject: self.arrayData, requiringSecureCoding: true) {
-        //            archiver.encode(dataForArray, forKey: "arrayData")
-        //        }
-        //        let data = archiver.encodedData
-
-
         
         self.homeTableView.reloadData()
     }
     
     // MARK: CORE DATA
-
+    
     func getAllItems() {
         do {
             arrayData = try context.fetch(EventItem.fetchRequest())
@@ -224,14 +203,11 @@ extension HomeViewController: DetailViewControllerDelegate {
             DispatchQueue.main.async {
                 self.homeTableView.reloadData()
             }
-            
-        
         }
+        
         catch {
             
         }
-        
-        
     }
     
     func createItem(sfSymbolIdentifier: String, title: String, dateAndTime: String, type: String) {
@@ -247,7 +223,6 @@ extension HomeViewController: DetailViewControllerDelegate {
         catch {
             
         }
-        
     }
     
     func deleteItem(item: EventItem) {
@@ -260,7 +235,6 @@ extension HomeViewController: DetailViewControllerDelegate {
         catch {
             
         }
-        
     }
     
     func updateItem(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String) {
@@ -268,7 +242,6 @@ extension HomeViewController: DetailViewControllerDelegate {
         item.title = newTitle
         item.dateAndTime = newDateAndTime
         item.type = newType
-        
         
         do {
             try context.save()
@@ -279,11 +252,8 @@ extension HomeViewController: DetailViewControllerDelegate {
         }
     }
     
-    
     func resetAllRecords(in EventItem : String)
         {
-
-            
             let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: EventItem)
             let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
             do
@@ -296,5 +266,4 @@ extension HomeViewController: DetailViewControllerDelegate {
                 print ("There was an error")
             }
         }
-    
 }
