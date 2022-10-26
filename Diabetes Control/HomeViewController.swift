@@ -131,25 +131,73 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let item = arrayData.reversed()[indexPath.row]
+        if editingStyle == .delete {
+
+            self.deleteItem(item: item)
+
+        }
+
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
         
-        let item = arrayData.reversed()[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+        vc.textFieldValue = self.arrayData.reversed()[indexPath.row].title
+        vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
+        vc.pickerOption = self.arrayData.reversed()[indexPath.row].type
+        let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+        vc.image = UIImage(systemName: sfSymbolString!)
         
-        
-        let sheet = UIAlertController(title: "Edit", message: nil, preferredStyle: .actionSheet)
-        
-        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: {_ in
+        if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
+            self.arrayData.reversed()[indexPath.row].type == "After Meal"
+        {
+            vc.pickerViewOptions = ["Before Meal", "After Meal"]
+            vc.eventValue = "Value in mg/dL"
+            vc.title = "Blood Sugar"
+            vc.eventType = "Moment"
             
-//        CODE TO EDIT THE EVENT
-            
-        }))
-        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: {[weak self] _ in
-            self?.deleteItem(item: item)
-        }))
+        }
         
-        present(sheet, animated: true)
+        if self.arrayData.reversed()[indexPath.row].type == "Short-acting" ||
+            self.arrayData.reversed()[indexPath.row].type == "Long-acting" ||
+            self.arrayData.reversed()[indexPath.row].type == "Mix" ||
+            self.arrayData.reversed()[indexPath.row].type == "NPH"
+        {
+            vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+            vc.eventValue = "Value in U"
+            vc.title = "Insulin"
+            vc.eventType = "Type"
+        }
+        
+        if self.arrayData.reversed()[indexPath.row].type == "Light" ||
+            self.arrayData.reversed()[indexPath.row].type == "Moderate" ||
+            self.arrayData.reversed()[indexPath.row].type == "Intense"
+        {
+            vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+            vc.eventValue = "Duration in Minutes"
+            vc.title = "Exercise"
+            vc.eventType = "Intensity"
+        }
+        
+        
+        if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
+        {
+            vc.isPickerViewHidden = true
+            vc.eventValue = "Value in Grams"
+            vc.title = "Carbs"
+        }
+        
+      
+        
+        
+        
+        
+        navigationController?.pushViewController(vc, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
