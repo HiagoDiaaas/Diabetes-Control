@@ -9,22 +9,25 @@ import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String)
+    func updateData(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String)
 }
 
 class DetailViewController: UIViewController {
-    
+    var arrayData = [EventItem]()
     // MARK: Properties
     weak var delegate: DetailViewControllerDelegate?
     var image: UIImage!
     var pickerViewOptions = [String]()
     var eventValue: String!
     var eventType: String!
-    var pickerOption: String!
+    var pickerOptionChoosed: String!
     var isPickerViewHidden = false
     var pickerIdentifier: String?
     var sfSymbolIdentifier: String!
     var dateString: String!
     var textFieldValue: String!
+    var isFromTableView: Bool!
+    var indexPath: IndexPath!
 
     // MARK: IBOutlets
     @IBOutlet weak var typeLabel: UILabel!
@@ -57,7 +60,7 @@ class DetailViewController: UIViewController {
         
         if let value = self.textFieldValue,
             let dateValue = self.dateString,
-            let type = self.pickerOption,
+            let type = self.pickerOptionChoosed,
             let img = self.image {
             valueTextField.text = value
             typeTextField.text = type
@@ -97,11 +100,27 @@ class DetailViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         
-        delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date),
-                           value: value,
-                           type: pickerIdentifier ?? pickerViewOptions[0],
-                           sfSimbolString: sfSymbolIdentifier)
-        self.navigationController?.popViewController(animated: true)
+//        for (item, index) in arrayData {
+//            if item
+//        }
+//
+        
+        
+        if isFromTableView {
+//            delegate?.updateData(item: selectedItem,
+//                                 newSfSymbolIdentifier: sfSymbolIdentifier,
+//                                 newTitle: value,
+//                                 newDateAndTime: dateFormatter.string(from: myDatePicker.date),
+//                                 newType: pickerIdentifier ?? pickerViewOptions[0])
+        } else {
+            delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date),
+                               value: value,
+                               type: pickerIdentifier ?? pickerViewOptions[0],
+                               sfSimbolString: sfSymbolIdentifier)
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        
     }
 }
 
@@ -115,11 +134,15 @@ extension DetailViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         if typeTextField == textField {
             typePickerView?.isHidden = false
-    
+            
             /// show exactly previous selected row in picker
-            if let index = pickerViewOptions.firstIndex(of: self.eventType) {
-                self.typePickerView?.selectRow(index, inComponent: 0, animated: true)
+            if let pickerString = self.pickerOptionChoosed {
+                if let index = pickerViewOptions.firstIndex(of: pickerString) {
+                    self.typePickerView?.selectRow(index, inComponent: 0, animated: true)
+                }
             }
+           
+            
         }
         
         if textField == valueTextField {

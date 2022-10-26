@@ -12,7 +12,6 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var bloodSugarButton: UIButton!
     
     var arrayData = [EventItem]()
-    
     var isBottomSheetShown = false
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -41,6 +40,7 @@ class HomeViewController: UIViewController {
         vc.delegate = self
         vc.title = "Blood Sugar"
         vc.eventType = "Moment"
+        vc.isFromTableView = false
         vc.eventValue = "Value in mg/dL"
         vc.pickerViewOptions = ["Before Meal", "After Meal"]
         vc.sfSymbolIdentifier = "drop.fill"
@@ -58,6 +58,7 @@ class HomeViewController: UIViewController {
         vc.delegate = self
         vc.title = "Insulin"
         vc.eventType = "Type"
+        vc.isFromTableView = false
         vc.eventValue = "Value in U"
         vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
         vc.sfSymbolIdentifier = "syringe.fill"
@@ -74,6 +75,7 @@ class HomeViewController: UIViewController {
         vc.delegate = self
         vc.title = "Carbs"
         vc.eventValue = "Value in Grams"
+        vc.isFromTableView = false
         vc.isPickerViewHidden = true
         vc.pickerViewOptions = [""]
         vc.sfSymbolIdentifier = "fork.knife.circle.fill"
@@ -91,6 +93,7 @@ class HomeViewController: UIViewController {
         vc.delegate = self
         vc.title = "Exercise"
         vc.eventType = "Intensity"
+        vc.isFromTableView = false
         vc.eventValue = "Duration in Minutes"
         vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
         vc.sfSymbolIdentifier = "figure.run"
@@ -148,9 +151,10 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.textFieldValue = self.arrayData.reversed()[indexPath.row].title
         vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
-        vc.pickerOption = self.arrayData.reversed()[indexPath.row].type
+        vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
         let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
         vc.image = UIImage(systemName: sfSymbolString!)
+        let idxPath = self.homeTableView.indexPathForSelectedRow
         
         if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
             self.arrayData.reversed()[indexPath.row].type == "After Meal"
@@ -183,21 +187,15 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             vc.eventType = "Intensity"
         }
         
-        
         if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
         {
             vc.isPickerViewHidden = true
             vc.eventValue = "Value in Grams"
             vc.title = "Carbs"
         }
-        
-      
-        
-        
-        
-        
+        vc.indexPath = idxPath
+        vc.isFromTableView = true
         navigationController?.pushViewController(vc, animated: true)
-
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -238,6 +236,20 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 extension HomeViewController: DetailViewControllerDelegate {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String) {
         createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
+        
+        self.homeTableView.reloadData()
+    }
+    
+    func updateData(item: EventItem,
+                    newSfSymbolIdentifier: String,
+                    newTitle: String,
+                    newDateAndTime: String,
+                    newType: String) {
+        updateItem(item: item,
+                   newSfSymbolIdentifier: newSfSymbolIdentifier,
+                   newTitle: newTitle,
+                   newDateAndTime: newDateAndTime,
+                   newType: newType)
         
         self.homeTableView.reloadData()
     }
