@@ -39,9 +39,9 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Blood Sugar"
-        vc.eventType = "Moment"
+        vc.eventTypeText = "Moment"
         vc.isFromTableView = false
-        vc.eventValue = "Value in mg/dL"
+        vc.eventValueText = "Value in mg/dL"
         vc.pickerViewOptions = ["Before Meal", "After Meal"]
         vc.sfSymbolIdentifier = "drop.fill"
         vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
@@ -57,9 +57,9 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Insulin"
-        vc.eventType = "Type"
+        vc.eventTypeText = "Type"
         vc.isFromTableView = false
-        vc.eventValue = "Value in U"
+        vc.eventValueText = "Value in U"
         vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
         vc.sfSymbolIdentifier = "syringe.fill"
         vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
@@ -74,7 +74,8 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Carbs"
-        vc.eventValue = "Value in Grams"
+        vc.isCarbs = true
+        vc.eventValueText = "Value in Grams"
         vc.isFromTableView = false
         vc.isPickerViewHidden = true
         vc.pickerViewOptions = [""]
@@ -92,9 +93,9 @@ class HomeViewController: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
         vc.delegate = self
         vc.title = "Exercise"
-        vc.eventType = "Intensity"
+        vc.eventTypeText = "Intensity"
         vc.isFromTableView = false
-        vc.eventValue = "Duration in Minutes"
+        vc.eventValueText = "Duration in Minutes"
         vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
         vc.sfSymbolIdentifier = "figure.run"
         vc.image = UIImage(systemName: vc.sfSymbolIdentifier)
@@ -147,22 +148,25 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
         
+        let item = self.arrayData.reversed()[indexPath.row]
+        
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        vc.textFieldValue = self.arrayData.reversed()[indexPath.row].title
+        vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].title
         vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
         vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
         let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
         vc.image = UIImage(systemName: sfSymbolString!)
-        let idxPath = self.homeTableView.indexPathForSelectedRow
+        //let idxPath = self.homeTableView.indexPathForSelectedRow
         
         if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
             self.arrayData.reversed()[indexPath.row].type == "After Meal"
         {
             vc.pickerViewOptions = ["Before Meal", "After Meal"]
-            vc.eventValue = "Value in mg/dL"
+            vc.eventValueText = "Value in mg/dL"
             vc.title = "Blood Sugar"
-            vc.eventType = "Moment"
+            vc.eventTypeText = "Moment"
+            vc.sfSymbolIdentifier = "drop.fill"
             
         }
         
@@ -172,9 +176,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             self.arrayData.reversed()[indexPath.row].type == "NPH"
         {
             vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
-            vc.eventValue = "Value in U"
+            vc.eventValueText = "Value in U"
             vc.title = "Insulin"
-            vc.eventType = "Type"
+            vc.eventTypeText = "Type"
+            vc.sfSymbolIdentifier = "syringe.fill"
+            
         }
         
         if self.arrayData.reversed()[indexPath.row].type == "Light" ||
@@ -182,18 +188,23 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             self.arrayData.reversed()[indexPath.row].type == "Intense"
         {
             vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
-            vc.eventValue = "Duration in Minutes"
+            vc.eventValueText = "Duration in Minutes"
             vc.title = "Exercise"
-            vc.eventType = "Intensity"
+            vc.eventTypeText = "Intensity"
+            vc.sfSymbolIdentifier = "figure.run"
         }
         
         if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
         {
             vc.isPickerViewHidden = true
-            vc.eventValue = "Value in Grams"
+            vc.eventValueText = "Value in Grams"
             vc.title = "Carbs"
+            vc.isCarbs = true
+            vc.sfSymbolIdentifier = "fork.knife.circle.fill"
         }
-        vc.indexPath = idxPath
+        
+        vc.delegate = self
+        vc.indexPath = item
         vc.isFromTableView = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -234,8 +245,11 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension HomeViewController: DetailViewControllerDelegate {
-    func saveData(dateValue: String, value: String, type: String, sfSimbolString: String) {
-        createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
+    func saveData(dateValue: String,
+                  value: String,
+                  type: String,
+                  sfSimbolString: String) {
+        self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
         
         self.homeTableView.reloadData()
     }
@@ -245,7 +259,7 @@ extension HomeViewController: DetailViewControllerDelegate {
                     newTitle: String,
                     newDateAndTime: String,
                     newType: String) {
-        updateItem(item: item,
+        self.updateItem(item: item,
                    newSfSymbolIdentifier: newSfSymbolIdentifier,
                    newTitle: newTitle,
                    newDateAndTime: newDateAndTime,

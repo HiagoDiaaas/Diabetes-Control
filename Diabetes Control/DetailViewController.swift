@@ -13,21 +13,21 @@ protocol DetailViewControllerDelegate: AnyObject {
 }
 
 class DetailViewController: UIViewController {
-    var arrayData = [EventItem]()
     // MARK: Properties
     weak var delegate: DetailViewControllerDelegate?
     var image: UIImage!
     var pickerViewOptions = [String]()
-    var eventValue: String!
-    var eventType: String!
+    var eventValueText: String!
+    var eventTypeText: String!
     var pickerOptionChoosed: String!
     var isPickerViewHidden = false
-    var pickerIdentifier: String?
+    var pickerIdentifierText: String?
     var sfSymbolIdentifier: String!
     var dateString: String!
-    var textFieldValue: String!
+    var valueTextFieldText: String!
     var isFromTableView: Bool!
-    var indexPath: IndexPath!
+    var indexPath: EventItem!
+    var isCarbs = false
 
     // MARK: IBOutlets
     @IBOutlet weak var typeLabel: UILabel!
@@ -51,14 +51,14 @@ class DetailViewController: UIViewController {
         navigationController?.navigationBar.barStyle = .black
         myDatePicker.overrideUserInterfaceStyle = .dark
         
-        valueLabel.text = eventValue
-        typeLabel.text = eventType
+        valueLabel.text = eventValueText
+        typeLabel.text = eventTypeText
         
         typePickerView?.dataSource = self
         typePickerView?.delegate = self
         typePickerView?.isHidden = true
         
-        if let value = self.textFieldValue,
+        if let value = self.valueTextFieldText,
             let dateValue = self.dateString,
             let type = self.pickerOptionChoosed,
             let img = self.image {
@@ -84,38 +84,39 @@ class DetailViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if valueTextField.text!.count > 0 {
+        if valueTextField.text!.count > 0  &&
+            typeTextField.text!.count > 0
+        {
             saveButton.isEnabled = true
+        } else if valueTextField.text!.count > 0  &&
+                    isCarbs {
+            saveButton.isEnabled = true
+            
         }
         self.view.endEditing(true)
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        if let textValue = valueTextField.text {
-            save(value: textValue)
+        if let textValue = valueTextField.text, let typeText = typeTextField.text {
+            save(value: textValue, type: typeText)
         }
     }
     
-    private func save(value: String) {
+    private func save(value: String, type: String) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         
-//        for (item, index) in arrayData {
-//            if item
-//        }
-//
-        
-        
         if isFromTableView {
-//            delegate?.updateData(item: selectedItem,
-//                                 newSfSymbolIdentifier: sfSymbolIdentifier,
-//                                 newTitle: value,
-//                                 newDateAndTime: dateFormatter.string(from: myDatePicker.date),
-//                                 newType: pickerIdentifier ?? pickerViewOptions[0])
+            delegate?.updateData(item: indexPath,
+                                 newSfSymbolIdentifier: sfSymbolIdentifier,
+                                 newTitle: value,
+                                 newDateAndTime: dateFormatter.string(from: myDatePicker.date),
+                                 newType: pickerIdentifierText ?? pickerOptionChoosed)
+            self.navigationController?.popViewController(animated: true)
         } else {
             delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date),
                                value: value,
-                               type: pickerIdentifier ?? pickerViewOptions[0],
+                               type: type,
                                sfSimbolString: sfSymbolIdentifier)
             self.navigationController?.popViewController(animated: true)
         }
@@ -169,8 +170,9 @@ extension DetailViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        pickerIdentifier = pickerViewOptions[row] as String
-        typeTextField.text = pickerIdentifier
+        pickerIdentifierText = pickerViewOptions[row] as String
+        typeTextField.text = pickerIdentifierText
         typePickerView?.isHidden = true
+        self.saveButton.isEnabled = true
     }
 }
