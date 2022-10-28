@@ -79,6 +79,18 @@ class DetailViewController: UIViewController {
         }
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+            if let txt = textField.text {
+                let currentText = txt + string
+                if currentText.count > 3 {
+                    return false
+                }
+                return true
+            }
+            return true
+        }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
