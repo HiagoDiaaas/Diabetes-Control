@@ -25,7 +25,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllItems()
-        self.getAllEvents()
+        //resetAllRecords(in: "EventItem")
+        getAllEvents()
         customTableView()
         navigationController?.navigationBar.barStyle = .black
         
@@ -141,13 +142,13 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let item = arrayData.reversed()[indexPath.row]
-        //let eventId = self.events.reversed()[indexPath.row].id
+        //let item = arrayData.reversed()[indexPath.row]
+        let eventId = self.events.reversed()[indexPath.row].id
     
         if editingStyle == .delete {
 
-            self.deleteItem(item: item)
-            //self.deleteEvent(id: eventId ?? 0)
+            //self.deleteItem(item: item)
+            self.deleteEvent(id: eventId ?? 0)
 
         }
 
@@ -222,28 +223,29 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
         }
         return events.count
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-            let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+            let sfSymbolString = events.reversed()[indexPath.row].sfSymbolIdentifier
             cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
             
             if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
+                cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)U"
             }
             if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)mg/dl"
+                cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)mg/dl"
             }
             if cell.iconImageView.image == UIImage(systemName: "figure.run") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)min"
+                cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)min"
             }
             if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)g"
+                cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)g"
 
             }
-            cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
-            cell.typeLabel.text = arrayData.reversed()[indexPath.row].type
+            cell.dateAndTimeLabel.text = events.reversed()[indexPath.row].dateAndTime
+            cell.typeLabel.text = events.reversed()[indexPath.row].type
 
             return cell
         }
@@ -301,8 +303,7 @@ extension HomeViewController: DetailViewControllerDelegate {
         eventService.createEvent(event: event){ (res) in
                 switch res {
                 case .success(_):
-                    NotificationCenter.default.post(name: Notification.Name("reloadNotification"), object: nil)
-                    self.navigationController?.popViewController(animated: true)
+                    self.getAllEvents()
                 case .failure(_):
                     print("error")
                 }
