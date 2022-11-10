@@ -19,7 +19,7 @@
 		F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */; };
 		F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */; };
 		F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */; };
-		F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36C9A7E28F9FA51003AEA13 /* Model.swift */; };
+		F3CFBBFB2916BAED00F15E47 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F3CFBBFA2916BAED00F15E47 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,6 @@
 		F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		F36C9A7E28F9FA51003AEA13 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3CFBBFB2916BAED00F15E47 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,7 +80,6 @@
 				8DB51D0228F9F598004CA34C /* Info.plist */,
 				8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */,
 				8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */,
-				F36C9A7E28F9FA51003AEA13 /* Model.swift */,
 				F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */,
 				F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */,
 			);
@@ -112,6 +111,9 @@
 			dependencies = (
 			);
 			name = "Diabetes Control";
+			packageProductDependencies = (
+				F3CFBBFA2916BAED00F15E47 /* Alamofire */,
+			);
 			productName = "Diabetes Control";
 			productReference = 8DB51CF128F9F596004CA34C /* Diabetes Control.app */;
 			productType = "com.apple.product-type.application";
@@ -140,6 +142,9 @@
 				Base,
 			);
 			mainGroup = 8DB51CE828F9F596004CA34C;
+			packageReferences = (
+				F3CFBBF92916BAED00F15E47 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 8DB51CF228F9F596004CA34C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -168,7 +173,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F36C9A7F28F9FA51003AEA13 /* Model.swift in Sources */,
 				8DB51CF928F9F596004CA34C /* HomeViewController.swift in Sources */,
 				F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */,
 				F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */,
@@ -392,6 +396,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F3CFBBF92916BAED00F15E47 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F3CFBBFA2916BAED00F15E47 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F3CFBBF92916BAED00F15E47 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */ = {
