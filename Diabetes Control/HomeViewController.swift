@@ -12,6 +12,11 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var bloodSugarButton: UIButton!
     
     var arrayData = [EventItem]()
+    var eventService = EventService()
+    var event = Event()
+    var events: [Event] = []
+    
+    
     var isBottomSheetShown = false
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -20,7 +25,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllItems()
-        
+        self.getAllEvents()
         customTableView()
         navigationController?.navigationBar.barStyle = .black
         
@@ -137,9 +142,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         let item = arrayData.reversed()[indexPath.row]
+        //let eventId = self.events.reversed()[indexPath.row].id
+    
         if editingStyle == .delete {
 
             self.deleteItem(item: item)
+            //self.deleteEvent(id: eventId ?? 0)
 
         }
 
@@ -213,7 +221,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         if section == 1 {
             return 1
         }
-        return arrayData.count
+        return events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -251,6 +259,12 @@ extension HomeViewController: DetailViewControllerDelegate {
                   sfSimbolString: String) {
         self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
         
+        event.sfSymbolIdentifier = sfSimbolString
+        event.value = value
+        event.dateAndTime = dateValue
+        event.type = type
+        self.createEvent()
+        
         self.homeTableView.reloadData()
     }
     
@@ -267,6 +281,54 @@ extension HomeViewController: DetailViewControllerDelegate {
         
         self.homeTableView.reloadData()
     }
+    
+    // MARK: CRUD API FUNCTIONS
+    
+    func getAllEvents() {
+        eventService.getAllEvents() { (res) in
+            switch res {
+            case .success(let events):
+                self.events = events
+                self.homeTableView.reloadData()
+            case .failure(_):
+                print("error")
+            }
+        }
+    }
+    
+    
+    @objc func createEvent() {
+        eventService.createEvent(event: event){ (res) in
+                switch res {
+                case .success(_):
+                    NotificationCenter.default.post(name: Notification.Name("reloadNotification"), object: nil)
+                    self.navigationController?.popViewController(animated: true)
+                case .failure(_):
+                    print("error")
+                }
+            }
+        
+    }
+    
+    func deleteEvent(id: Int) {
+        eventService.deleteEvent(id: id) { (res) in
+            switch res {
+            case .success(_):
+                self.getAllEvents()
+            case .failure(_):
+                print("error")
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // MARK: CORE DATA
     

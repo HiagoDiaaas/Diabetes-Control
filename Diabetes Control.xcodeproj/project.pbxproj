@@ -19,6 +19,8 @@
 		F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */; };
 		F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */; };
 		F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */; };
+		F36CD93A291D342000F06CAF /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36CD939291D342000F06CAF /* Event.swift */; };
+		F36CD93C291D35EF00F06CAF /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36CD93B291D35EF00F06CAF /* EventService.swift */; };
 		F3CFBBFB2916BAED00F15E47 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = F3CFBBFA2916BAED00F15E47 /* Alamofire */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		F36CD939291D342000F06CAF /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		F36CD93B291D35EF00F06CAF /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,13 +78,15 @@
 				8DB51CF428F9F596004CA34C /* AppDelegate.swift */,
 				8DB51CF628F9F596004CA34C /* SceneDelegate.swift */,
 				8DB51CF828F9F596004CA34C /* HomeViewController.swift */,
+				F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */,
+				8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */,
+				F36CD93B291D35EF00F06CAF /* EventService.swift */,
 				8DB51CFA28F9F596004CA34C /* Main.storyboard */,
 				8DB51CFD28F9F598004CA34C /* Assets.xcassets */,
 				8DB51CFF28F9F598004CA34C /* LaunchScreen.storyboard */,
 				8DB51D0228F9F598004CA34C /* Info.plist */,
-				8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */,
 				8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */,
-				F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */,
+				F36CD938291D340500F06CAF /* Model */,
 				F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */,
 			);
 			path = "Diabetes Control";
@@ -93,6 +99,14 @@
 				F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		F36CD938291D340500F06CAF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F36CD939291D342000F06CAF /* Event.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,12 +188,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DB51CF928F9F596004CA34C /* HomeViewController.swift in Sources */,
+				F36CD93A291D342000F06CAF /* Event.swift in Sources */,
 				F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */,
 				F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */,
 				8DB51CF528F9F596004CA34C /* AppDelegate.swift in Sources */,
 				F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */,
 				F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */,
 				8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */,
+				F36CD93C291D35EF00F06CAF /* EventService.swift in Sources */,
 				8DB51CF728F9F596004CA34C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
