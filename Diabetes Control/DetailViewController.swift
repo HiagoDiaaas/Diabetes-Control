@@ -9,7 +9,7 @@ import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String)
-    func updateData(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String)
+    func updateData(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String, id: Int)
 }
 
 class DetailViewController: UIViewController {
@@ -28,6 +28,7 @@ class DetailViewController: UIViewController {
     var isFromTableView: Bool!
     var indexPath: EventItem!
     var isCarbs = false
+    var eventId: Int?
 
     // MARK: IBOutlets
     @IBOutlet weak var typeLabel: UILabel!
@@ -123,7 +124,9 @@ class DetailViewController: UIViewController {
                                  newSfSymbolIdentifier: sfSymbolIdentifier,
                                  newTitle: value,
                                  newDateAndTime: dateFormatter.string(from: myDatePicker.date),
-                                 newType: pickerIdentifierText ?? pickerOptionChoosed)
+                                 newType: pickerIdentifierText ?? pickerOptionChoosed,
+                                 id: eventId ?? 0
+            )
             self.navigationController?.popViewController(animated: true)
         } else {
             delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date),
