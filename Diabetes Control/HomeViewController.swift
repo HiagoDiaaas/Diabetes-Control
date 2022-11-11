@@ -311,7 +311,7 @@ extension HomeViewController: DetailViewControllerDelegate {
         
     }
     
-    func deleteEvent(id: Int) {
+    @objc func deleteEvent(id: Int) {
         eventService.deleteEvent(id: id) { (res) in
             switch res {
             case .success(_):
