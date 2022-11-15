@@ -62,6 +62,7 @@ class EventService {
         AF.request(request).validate(statusCode: 200..<300).responseJSON { response in
             if let err = response.error {
                 completion(.failure(err))
+                print("chegou aqui")
                 return
             }
             completion(.success(1))

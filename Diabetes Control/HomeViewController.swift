@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllItems()
-        resetAllRecords(in: "EventItem")
+        //resetAllRecords(in: "EventItem")
         getAllEvents()
         customTableView()
         navigationController?.navigationBar.barStyle = .black
@@ -143,15 +143,38 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        //let item = arrayData.reversed()[indexPath.row]
-        let eventId = self.events.reversed()[indexPath.row].id
-    
-        if editingStyle == .delete {
+        
+        if isFromCoreData {
+            let item = arrayData.reversed()[indexPath.row]
+            
+        
+            if editingStyle == .delete {
 
-            //self.deleteItem(item: item)
-            self.deleteEvent(id: eventId ?? 0)
+                self.deleteItem(item: item)
+               
 
+            }
+            
+        } else {
+            if arrayData.reversed()[indexPath.row].title == events.reversed()[indexPath.row].value {
+                let item = arrayData.reversed()[indexPath.row]
+                let eventId = self.events.reversed()[indexPath.row].id
+            
+                if editingStyle == .delete {
+
+                    self.deleteItem(item: item)
+                    self.deleteEvent(id: eventId ?? 0)
+
+                }
+                
+            } else {print ("Error")}
+            
+            
+            
         }
+        
+        
+        
 
     }
     
@@ -376,7 +399,8 @@ extension HomeViewController: DetailViewControllerDelegate {
             case .success(_):
                 self.getAllEvents()
             case .failure(_):
-                print("error")
+                self.isFromCoreData = true
+               
             }
         }
     }
