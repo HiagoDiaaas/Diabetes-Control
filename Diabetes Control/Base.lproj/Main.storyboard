@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Diabetes Managment-->
+        <!--Diabetes Control-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Diabetes_Control" customModuleProvider="target" sceneMemberID="viewController">
@@ -132,7 +132,12 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cJG-7k-aIg" secondAttribute="bottom" id="nlc-En-dET"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Diabetes Managment" id="qLw-V0-EwW">
+                    <navigationItem key="navigationItem" title="Diabetes Control" id="qLw-V0-EwW">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="ju1-Pf-nGp">
+                            <connections>
+                                <action selector="shareAction:" destination="BYZ-38-t0r" id="Xvv-ar-0xL"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="lVb-b5-YDB">
                             <connections>
                                 <action selector="openEventMenu:" destination="BYZ-38-t0r" id="FtU-98-hST"/>

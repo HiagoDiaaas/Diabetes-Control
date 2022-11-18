@@ -38,6 +38,60 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: @IBActions
+    
+    
+    @IBAction func shareAction(_ sender: Any) {
+        print("Start exporting...")
+        
+        let file_name = "diabetes_data.csv"
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(file_name)
+        
+        var csvHead = "Event Type, Value, Unit, Additional Value, Date and Time\n"
+        
+        var number = 0
+        
+        for event in arrayData.reversed() {
+            number += 1
+            
+            if event.sfSymbolIdentifier == "drop.fill" {
+                csvHead.append("Blood Sugar, \(event.title!), mg/dl, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "syringe.fill" {
+                csvHead.append("Insulin, \(event.title!), U, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "fork.knife.circle.fill" {
+                csvHead.append("Carbs, \(event.title!), grams, none, \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "figure.run" {
+                csvHead.append("Exercise, \(event.title!), minutes, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+        
+            
+        }
+        
+        do {
+            
+            try csvHead.write(to: path!, atomically: true, encoding: .utf8)
+            let exportSheet = UIActivityViewController(activityItems: [path as Any], applicationActivities: nil)
+            self.present(exportSheet, animated: true, completion: nil)
+            print("Exported")
+            
+        } catch {
+            print("Error")
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
     @IBAction func bloodSugarButtonTapped(_ sender: Any) {
         self.heightConstraint.constant = 0
         self.isBottomSheetShown = false
