@@ -31,6 +31,7 @@ class DetailViewController: UIViewController {
     var eventId: Int?
 
     // MARK: IBOutlets
+    @IBOutlet weak var doneTypingButton: UIButton!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var typePickerView: UIPickerView?
@@ -42,6 +43,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        doneTypingButton.isHidden = true
         
         valueTextField.delegate = self
         typeTextField.delegate = self
@@ -106,6 +109,7 @@ class DetailViewController: UIViewController {
             saveButton.isEnabled = true
             
         }
+        doneTypingButton.isHidden = true
         self.view.endEditing(true)
     }
     
@@ -113,6 +117,14 @@ class DetailViewController: UIViewController {
         if let textValue = valueTextField.text, let typeText = typeTextField.text {
             save(value: textValue, type: typeText)
         }
+    }
+    
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        valueTextField.resignFirstResponder()
+        doneTypingButton.isHidden = true
+        
+       
     }
     
     private func save(value: String, type: String) {
@@ -148,6 +160,9 @@ extension DetailViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        
+        
         if typeTextField == textField {
             typePickerView?.isHidden = false
             
@@ -162,6 +177,7 @@ extension DetailViewController: UITextFieldDelegate {
         }
         
         if textField == valueTextField {
+            doneTypingButton.isHidden = false
             return true
         }
         
