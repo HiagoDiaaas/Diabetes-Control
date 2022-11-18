@@ -15,6 +15,8 @@
 		8DB51D0128F9F598004CA34C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51CFF28F9F598004CA34C /* LaunchScreen.storyboard */; };
 		8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */; };
 		8DB51D0B28F9F66E004CA34C /* CustomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */; };
+		F322DE2029280F29006066D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F322DE1D29280F29006066D3 /* ViewController.swift */; };
+		F322DE2129280F29006066D3 /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F322DE1F29280F29006066D3 /* LoginScreen.swift */; };
 		F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */; };
 		F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */; };
 		F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */; };
@@ -35,6 +37,8 @@
 		8DB51D0228F9F598004CA34C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB51D0828F9F66E004CA34C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		8DB51D0928F9F66E004CA34C /* CustomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomTableViewCell.xib; sourceTree = "<group>"; };
+		F322DE1D29280F29006066D3 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F322DE1F29280F29006066D3 /* LoginScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		F32893942906ABB100EA00CA /* EventModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EventModel.xcdatamodel; sourceTree = "<group>"; };
 		F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 		8DB51CF328F9F596004CA34C /* Diabetes Control */ = {
 			isa = PBXGroup;
 			children = (
+				F322DE1B29280F29006066D3 /* Login */,
 				F328939F2906B8D100EA00CA /* Entity */,
 				8DB51CF428F9F596004CA34C /* AppDelegate.swift */,
 				8DB51CF628F9F596004CA34C /* SceneDelegate.swift */,
@@ -90,6 +95,31 @@
 				F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */,
 			);
 			path = "Diabetes Control";
+			sourceTree = "<group>";
+		};
+		F322DE1B29280F29006066D3 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F322DE1C29280F29006066D3 /* VC */,
+				F322DE1E29280F29006066D3 /* Screen */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		F322DE1C29280F29006066D3 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				F322DE1D29280F29006066D3 /* ViewController.swift */,
+			);
+			path = VC;
+			sourceTree = "<group>";
+		};
+		F322DE1E29280F29006066D3 /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				F322DE1F29280F29006066D3 /* LoginScreen.swift */,
+			);
+			path = Screen;
 			sourceTree = "<group>";
 		};
 		F328939F2906B8D100EA00CA /* Entity */ = {
@@ -191,6 +221,8 @@
 				F36CD93A291D342000F06CAF /* Event.swift in Sources */,
 				F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */,
 				F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */,
+				F322DE2029280F29006066D3 /* ViewController.swift in Sources */,
+				F322DE2129280F29006066D3 /* LoginScreen.swift in Sources */,
 				8DB51CF528F9F596004CA34C /* AppDelegate.swift in Sources */,
 				F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */,
 				F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */,
@@ -347,7 +379,6 @@
 				INFOPLIST_FILE = "Diabetes Control/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -374,7 +405,6 @@
 				INFOPLIST_FILE = "Diabetes Control/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
