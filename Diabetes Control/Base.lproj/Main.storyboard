@@ -138,7 +138,7 @@
                                 <action selector="shareAction:" destination="BYZ-38-t0r" id="Xvv-ar-0xL"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lVb-b5-YDB">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="lVb-b5-YDB">
                             <connections>
                                 <action selector="openEventMenu:" destination="BYZ-38-t0r" id="FtU-98-hST"/>
                             </connections>
@@ -254,13 +254,16 @@
                                     </button>
                                 </subviews>
                             </stackView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDB-uZ-Wzz">
-                                <rect key="frame" x="300" y="83" width="78" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDB-uZ-Wzz">
+                                <rect key="frame" x="296" y="30" width="78" height="39"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="U89-He-mKp"/>
+                                    <constraint firstAttribute="height" constant="39" id="chU-eU-Ujd"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Done">
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -275,9 +278,12 @@
                         <viewLayoutGuide key="safeArea" id="D8Z-Y6-62w"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="D8Z-Y6-62w" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lDB-uZ-Wzz" secondAttribute="trailing" symbolic="YES" id="7WJ-nY-zwr"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="centerY" secondItem="D8Z-Y6-62w" secondAttribute="centerY" constant="6" id="CYl-xf-O0V"/>
+                            <constraint firstItem="lDB-uZ-Wzz" firstAttribute="top" secondItem="D8Z-Y6-62w" secondAttribute="top" constant="-17" id="eh1-Ua-vSM"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="centerX" secondItem="D8Z-Y6-62w" secondAttribute="centerX" id="pIJ-wP-2vh"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="width" secondItem="I7p-es-4cX" secondAttribute="width" multiplier="0.5" id="qoY-Ea-a5B"/>
+                            <constraint firstItem="lDB-uZ-Wzz" firstAttribute="leading" secondItem="aAt-cl-8HZ" secondAttribute="trailing" constant="3.3333333333333144" id="zNk-ft-Aec"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="OjP-2R-d3g"/>

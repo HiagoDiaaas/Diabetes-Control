@@ -47,7 +47,7 @@ extension ViewController:LoginScreenProtocol {
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: nil)
 
-        print("Login Button Tapped")
+       
     }
     
     

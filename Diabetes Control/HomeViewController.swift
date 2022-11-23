@@ -16,7 +16,7 @@ class HomeViewController: UIViewController {
     var event = Event()
     var events: [Event] = []
     var isFromCoreData = false
-    
+
     
     var isBottomSheetShown = false
 
@@ -235,68 +235,134 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
         
-        let eventId = self.events.reversed()[indexPath.row].id
-        
-        let item = self.arrayData.reversed()[indexPath.row]
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        vc.valueTextFieldText = self.events.reversed()[indexPath.row].value
-        vc.dateString = self.events.reversed()[indexPath.row].dateAndTime
-        vc.pickerOptionChoosed = self.events.reversed()[indexPath.row].type
-        let sfSymbolString = self.events.reversed()[indexPath.row].sfSymbolIdentifier
-        vc.image = UIImage(systemName: sfSymbolString!)
-     
-        
-        if self.events.reversed()[indexPath.row].type == "Before Meal" ||
-            self.events.reversed()[indexPath.row].type == "After Meal"
-        {
-            vc.pickerViewOptions = ["Before Meal", "After Meal"]
-            vc.eventValueText = "Value in mg/dL"
-            vc.title = "Blood Sugar"
-            vc.eventTypeText = "Moment"
-            vc.sfSymbolIdentifier = "drop.fill"
+        if isFromCoreData {
             
-        }
-        
-        if self.events.reversed()[indexPath.row].type == "Short-acting" ||
-            self.events.reversed()[indexPath.row].type == "Long-acting" ||
-            self.events.reversed()[indexPath.row].type == "Mix" ||
-            self.events.reversed()[indexPath.row].type == "NPH"
-        {
-            vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
-            vc.eventValueText = "Value in U"
-            vc.title = "Insulin"
-            vc.eventTypeText = "Type"
-            vc.sfSymbolIdentifier = "syringe.fill"
+            let item = self.arrayData.reversed()[indexPath.row]
             
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+            vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].title
+            vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
+            vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
+            let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+            vc.image = UIImage(systemName: sfSymbolString!)
+         
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
+                self.arrayData.reversed()[indexPath.row].type == "After Meal"
+            {
+                vc.pickerViewOptions = ["Before Meal", "After Meal"]
+                vc.eventValueText = "Value in mg/dL"
+                vc.title = "Blood Sugar"
+                vc.eventTypeText = "Moment"
+                vc.sfSymbolIdentifier = "drop.fill"
+                
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Short-acting" ||
+                self.arrayData.reversed()[indexPath.row].type == "Long-acting" ||
+                self.arrayData.reversed()[indexPath.row].type == "Mix" ||
+                self.arrayData.reversed()[indexPath.row].type == "NPH"
+            {
+                vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+                vc.eventValueText = "Value in U"
+                vc.title = "Insulin"
+                vc.eventTypeText = "Type"
+                vc.sfSymbolIdentifier = "syringe.fill"
+                
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Light" ||
+                self.arrayData.reversed()[indexPath.row].type == "Moderate" ||
+                self.arrayData.reversed()[indexPath.row].type == "Intense"
+            {
+                vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+                vc.eventValueText = "Duration in Minutes"
+                vc.title = "Exercise"
+                vc.eventTypeText = "Intensity"
+                vc.sfSymbolIdentifier = "figure.run"
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
+            {
+                vc.isPickerViewHidden = true
+                vc.eventValueText = "Value in Grams"
+                vc.title = "Carbs"
+                vc.isCarbs = true
+                vc.sfSymbolIdentifier = "fork.knife.circle.fill"
+            }
+            
+            vc.delegate = self
+            vc.indexPath = item
+            vc.isFromTableView = true
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else {
+            let eventId = self.events.reversed()[indexPath.row].id
+            
+            let item = self.arrayData.reversed()[indexPath.row]
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+            vc.valueTextFieldText = self.events.reversed()[indexPath.row].value
+            vc.dateString = self.events.reversed()[indexPath.row].dateAndTime
+            vc.pickerOptionChoosed = self.events.reversed()[indexPath.row].type
+            let sfSymbolString = self.events.reversed()[indexPath.row].sfSymbolIdentifier
+            vc.image = UIImage(systemName: sfSymbolString!)
+         
+            
+            if self.events.reversed()[indexPath.row].type == "Before Meal" ||
+                self.events.reversed()[indexPath.row].type == "After Meal"
+            {
+                vc.pickerViewOptions = ["Before Meal", "After Meal"]
+                vc.eventValueText = "Value in mg/dL"
+                vc.title = "Blood Sugar"
+                vc.eventTypeText = "Moment"
+                vc.sfSymbolIdentifier = "drop.fill"
+                
+            }
+            
+            if self.events.reversed()[indexPath.row].type == "Short-acting" ||
+                self.events.reversed()[indexPath.row].type == "Long-acting" ||
+                self.events.reversed()[indexPath.row].type == "Mix" ||
+                self.events.reversed()[indexPath.row].type == "NPH"
+            {
+                vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+                vc.eventValueText = "Value in U"
+                vc.title = "Insulin"
+                vc.eventTypeText = "Type"
+                vc.sfSymbolIdentifier = "syringe.fill"
+                
+            }
+            
+            if self.events.reversed()[indexPath.row].type == "Light" ||
+                self.events.reversed()[indexPath.row].type == "Moderate" ||
+                self.events.reversed()[indexPath.row].type == "Intense"
+            {
+                vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+                vc.eventValueText = "Duration in Minutes"
+                vc.title = "Exercise"
+                vc.eventTypeText = "Intensity"
+                vc.sfSymbolIdentifier = "figure.run"
+            }
+            
+            if self.events.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
+            {
+                vc.isPickerViewHidden = true
+                vc.eventValueText = "Value in Grams"
+                vc.title = "Carbs"
+                vc.isCarbs = true
+                vc.sfSymbolIdentifier = "fork.knife.circle.fill"
+            }
+            
+            vc.delegate = self
+            vc.indexPath = item
+            vc.isFromTableView = true
+            vc.eventId = eventId
+            navigationController?.pushViewController(vc, animated: true)
         }
         
-        if self.events.reversed()[indexPath.row].type == "Light" ||
-            self.events.reversed()[indexPath.row].type == "Moderate" ||
-            self.events.reversed()[indexPath.row].type == "Intense"
-        {
-            vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
-            vc.eventValueText = "Duration in Minutes"
-            vc.title = "Exercise"
-            vc.eventTypeText = "Intensity"
-            vc.sfSymbolIdentifier = "figure.run"
-        }
         
-        if self.events.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
-        {
-            vc.isPickerViewHidden = true
-            vc.eventValueText = "Value in Grams"
-            vc.title = "Carbs"
-            vc.isCarbs = true
-            vc.sfSymbolIdentifier = "fork.knife.circle.fill"
-        }
-        
-        vc.delegate = self
-        vc.indexPath = item
-        vc.isFromTableView = true
-        vc.eventId = eventId
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
