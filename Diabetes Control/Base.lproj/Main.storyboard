@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Diabetes Managment-->
+        <!--Diabetes Control-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="Diabetes_Control" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="BYZ-38-t0r" customClass="HomeViewController" customModule="Diabetes_Control" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -132,8 +132,13 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="cJG-7k-aIg" secondAttribute="bottom" id="nlc-En-dET"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Diabetes Managment" id="qLw-V0-EwW">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="lVb-b5-YDB">
+                    <navigationItem key="navigationItem" title="Diabetes Control" id="qLw-V0-EwW">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="ju1-Pf-nGp">
+                            <connections>
+                                <action selector="shareAction:" destination="BYZ-38-t0r" id="Xvv-ar-0xL"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="lVb-b5-YDB">
                             <connections>
                                 <action selector="openEventMenu:" destination="BYZ-38-t0r" id="FtU-98-hST"/>
                             </connections>
@@ -151,12 +156,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="950.76923076923072" y="3.5545023696682461"/>
+            <point key="canvasLocation" x="972" y="-2"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qWb-R3-EsG">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UUd-1U-2Pa" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kq4-iD-PTo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="NV" automaticallyAdjustsScrollViewInsets="NO" id="UUd-1U-2Pa" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="edj-MP-1fG">
                         <rect key="frame" x="0.0" y="47" width="390" height="44"/>
@@ -174,7 +180,6 @@
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Qyd-y3-hWW"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kq4-iD-PTo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="21.538461538461537" y="3.5545023696682461"/>
         </scene>
@@ -249,17 +254,41 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lDB-uZ-Wzz">
+                                <rect key="frame" x="296" y="30" width="78" height="39"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="78" id="U89-He-mKp"/>
+                                    <constraint firstAttribute="height" constant="39" id="chU-eU-Ujd"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Done">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="doneButtonTapped:" destination="QBf-Nf-6i7" eventType="touchUpInside" id="0dT-wh-fbs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="D8Z-Y6-62w"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="D8Z-Y6-62w" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="lDB-uZ-Wzz" secondAttribute="trailing" symbolic="YES" id="7WJ-nY-zwr"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="centerY" secondItem="D8Z-Y6-62w" secondAttribute="centerY" constant="6" id="CYl-xf-O0V"/>
+                            <constraint firstItem="lDB-uZ-Wzz" firstAttribute="top" secondItem="D8Z-Y6-62w" secondAttribute="top" constant="-17" id="eh1-Ua-vSM"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="centerX" secondItem="D8Z-Y6-62w" secondAttribute="centerX" id="pIJ-wP-2vh"/>
                             <constraint firstItem="aAt-cl-8HZ" firstAttribute="width" secondItem="I7p-es-4cX" secondAttribute="width" multiplier="0.5" id="qoY-Ea-a5B"/>
+                            <constraint firstItem="lDB-uZ-Wzz" firstAttribute="leading" secondItem="aAt-cl-8HZ" secondAttribute="trailing" constant="3.3333333333333144" id="zNk-ft-Aec"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="OjP-2R-d3g"/>
                     <connections>
+                        <outlet property="doneTypingButton" destination="lDB-uZ-Wzz" id="qqR-QO-qCX"/>
                         <outlet property="iconImage" destination="TiA-tX-WWD" id="zvf-bg-0fP"/>
                         <outlet property="myDatePicker" destination="QHH-RT-gwm" id="GJi-Tk-LPp"/>
                         <outlet property="saveButton" destination="btu-tj-XH4" id="Ekj-Bb-F12"/>
@@ -272,7 +301,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yoU-te-oQ1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1897" y="4"/>
+            <point key="canvasLocation" x="1896.9230769230769" y="3.5545023696682461"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

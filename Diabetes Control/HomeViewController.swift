@@ -12,6 +12,12 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var bloodSugarButton: UIButton!
     
     var arrayData = [EventItem]()
+    var eventService = EventService()
+    var event = Event()
+    var events: [Event] = []
+    var isFromCoreData = false
+
+    
     var isBottomSheetShown = false
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -20,7 +26,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllItems()
-        
+        //resetAllRecords(in: "EventItem")
+        getAllEvents()
         customTableView()
         navigationController?.navigationBar.barStyle = .black
         
@@ -31,6 +38,60 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: @IBActions
+    
+    
+    @IBAction func shareAction(_ sender: Any) {
+        print("Start exporting...")
+        
+        let file_name = "diabetes_data.csv"
+        let path = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(file_name)
+        
+        var csvHead = "Event Type, Value, Unit, Additional Value, Date and Time\n"
+        
+        var number = 0
+        
+        for event in arrayData.reversed() {
+            number += 1
+            
+            if event.sfSymbolIdentifier == "drop.fill" {
+                csvHead.append("Blood Sugar, \(event.title!), mg/dl, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "syringe.fill" {
+                csvHead.append("Insulin, \(event.title!), U, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "fork.knife.circle.fill" {
+                csvHead.append("Carbs, \(event.title!), grams, none, \(event.dateAndTime!)\n")
+            }
+            
+            if event.sfSymbolIdentifier == "figure.run" {
+                csvHead.append("Exercise, \(event.title!), minutes, \(event.type!), \(event.dateAndTime!)\n")
+            }
+            
+        
+            
+        }
+        
+        do {
+            
+            try csvHead.write(to: path!, atomically: true, encoding: .utf8)
+            let exportSheet = UIActivityViewController(activityItems: [path as Any], applicationActivities: nil)
+            self.present(exportSheet, animated: true, completion: nil)
+            print("Exported")
+            
+        } catch {
+            print("Error")
+        }
+        
+    }
+    
+    
+    
+    
+    
+    
+    
     @IBAction func bloodSugarButtonTapped(_ sender: Any) {
         self.heightConstraint.constant = 0
         self.isBottomSheetShown = false
@@ -136,108 +197,232 @@ class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        let item = arrayData.reversed()[indexPath.row]
-        if editingStyle == .delete {
+        
+        if isFromCoreData {
+            let item = arrayData.reversed()[indexPath.row]
+            
+        
+            if editingStyle == .delete {
 
-            self.deleteItem(item: item)
+                self.deleteItem(item: item)
+               
 
+            }
+            
+        } else {
+            if arrayData.reversed()[indexPath.row].title == events.reversed()[indexPath.row].value {
+                let item = arrayData.reversed()[indexPath.row]
+                let eventId = self.events.reversed()[indexPath.row].id
+            
+                if editingStyle == .delete {
+
+                    self.deleteItem(item: item)
+                    self.deleteEvent(id: eventId ?? 0)
+
+                }
+                
+            } else {print ("Error")}
+            
+            
+            
         }
+        
+        
+        
 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         homeTableView.deselectRow(at: indexPath, animated: true)
         
-        let item = self.arrayData.reversed()[indexPath.row]
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].title
-        vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
-        vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
-        let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
-        vc.image = UIImage(systemName: sfSymbolString!)
-        //let idxPath = self.homeTableView.indexPathForSelectedRow
-        
-        if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
-            self.arrayData.reversed()[indexPath.row].type == "After Meal"
-        {
-            vc.pickerViewOptions = ["Before Meal", "After Meal"]
-            vc.eventValueText = "Value in mg/dL"
-            vc.title = "Blood Sugar"
-            vc.eventTypeText = "Moment"
-            vc.sfSymbolIdentifier = "drop.fill"
+        if isFromCoreData {
             
-        }
-        
-        if self.arrayData.reversed()[indexPath.row].type == "Short-acting" ||
-            self.arrayData.reversed()[indexPath.row].type == "Long-acting" ||
-            self.arrayData.reversed()[indexPath.row].type == "Mix" ||
-            self.arrayData.reversed()[indexPath.row].type == "NPH"
-        {
-            vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
-            vc.eventValueText = "Value in U"
-            vc.title = "Insulin"
-            vc.eventTypeText = "Type"
-            vc.sfSymbolIdentifier = "syringe.fill"
+            let item = self.arrayData.reversed()[indexPath.row]
             
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+            vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].title
+            vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
+            vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
+            let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+            vc.image = UIImage(systemName: sfSymbolString!)
+         
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Before Meal" ||
+                self.arrayData.reversed()[indexPath.row].type == "After Meal"
+            {
+                vc.pickerViewOptions = ["Before Meal", "After Meal"]
+                vc.eventValueText = "Value in mg/dL"
+                vc.title = "Blood Sugar"
+                vc.eventTypeText = "Moment"
+                vc.sfSymbolIdentifier = "drop.fill"
+                
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Short-acting" ||
+                self.arrayData.reversed()[indexPath.row].type == "Long-acting" ||
+                self.arrayData.reversed()[indexPath.row].type == "Mix" ||
+                self.arrayData.reversed()[indexPath.row].type == "NPH"
+            {
+                vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+                vc.eventValueText = "Value in U"
+                vc.title = "Insulin"
+                vc.eventTypeText = "Type"
+                vc.sfSymbolIdentifier = "syringe.fill"
+                
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].type == "Light" ||
+                self.arrayData.reversed()[indexPath.row].type == "Moderate" ||
+                self.arrayData.reversed()[indexPath.row].type == "Intense"
+            {
+                vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+                vc.eventValueText = "Duration in Minutes"
+                vc.title = "Exercise"
+                vc.eventTypeText = "Intensity"
+                vc.sfSymbolIdentifier = "figure.run"
+            }
+            
+            if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
+            {
+                vc.isPickerViewHidden = true
+                vc.eventValueText = "Value in Grams"
+                vc.title = "Carbs"
+                vc.isCarbs = true
+                vc.sfSymbolIdentifier = "fork.knife.circle.fill"
+            }
+            
+            vc.delegate = self
+            vc.indexPath = item
+            vc.isFromTableView = true
+            navigationController?.pushViewController(vc, animated: true)
+            
+        } else {
+            let eventId = self.events.reversed()[indexPath.row].id
+            
+            let item = self.arrayData.reversed()[indexPath.row]
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
+            vc.valueTextFieldText = self.events.reversed()[indexPath.row].value
+            vc.dateString = self.events.reversed()[indexPath.row].dateAndTime
+            vc.pickerOptionChoosed = self.events.reversed()[indexPath.row].type
+            let sfSymbolString = self.events.reversed()[indexPath.row].sfSymbolIdentifier
+            vc.image = UIImage(systemName: sfSymbolString!)
+         
+            
+            if self.events.reversed()[indexPath.row].type == "Before Meal" ||
+                self.events.reversed()[indexPath.row].type == "After Meal"
+            {
+                vc.pickerViewOptions = ["Before Meal", "After Meal"]
+                vc.eventValueText = "Value in mg/dL"
+                vc.title = "Blood Sugar"
+                vc.eventTypeText = "Moment"
+                vc.sfSymbolIdentifier = "drop.fill"
+                
+            }
+            
+            if self.events.reversed()[indexPath.row].type == "Short-acting" ||
+                self.events.reversed()[indexPath.row].type == "Long-acting" ||
+                self.events.reversed()[indexPath.row].type == "Mix" ||
+                self.events.reversed()[indexPath.row].type == "NPH"
+            {
+                vc.pickerViewOptions = ["Short-acting", "Long-acting", "Mix", "NPH"]
+                vc.eventValueText = "Value in U"
+                vc.title = "Insulin"
+                vc.eventTypeText = "Type"
+                vc.sfSymbolIdentifier = "syringe.fill"
+                
+            }
+            
+            if self.events.reversed()[indexPath.row].type == "Light" ||
+                self.events.reversed()[indexPath.row].type == "Moderate" ||
+                self.events.reversed()[indexPath.row].type == "Intense"
+            {
+                vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
+                vc.eventValueText = "Duration in Minutes"
+                vc.title = "Exercise"
+                vc.eventTypeText = "Intensity"
+                vc.sfSymbolIdentifier = "figure.run"
+            }
+            
+            if self.events.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
+            {
+                vc.isPickerViewHidden = true
+                vc.eventValueText = "Value in Grams"
+                vc.title = "Carbs"
+                vc.isCarbs = true
+                vc.sfSymbolIdentifier = "fork.knife.circle.fill"
+            }
+            
+            vc.delegate = self
+            vc.indexPath = item
+            vc.isFromTableView = true
+            vc.eventId = eventId
+            navigationController?.pushViewController(vc, animated: true)
         }
         
-        if self.arrayData.reversed()[indexPath.row].type == "Light" ||
-            self.arrayData.reversed()[indexPath.row].type == "Moderate" ||
-            self.arrayData.reversed()[indexPath.row].type == "Intense"
-        {
-            vc.pickerViewOptions = ["Light", "Moderate", "Intense"]
-            vc.eventValueText = "Duration in Minutes"
-            vc.title = "Exercise"
-            vc.eventTypeText = "Intensity"
-            vc.sfSymbolIdentifier = "figure.run"
-        }
         
-        if self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier == "fork.knife.circle.fill"
-        {
-            vc.isPickerViewHidden = true
-            vc.eventValueText = "Value in Grams"
-            vc.title = "Carbs"
-            vc.isCarbs = true
-            vc.sfSymbolIdentifier = "fork.knife.circle.fill"
-        }
-        
-        vc.delegate = self
-        vc.indexPath = item
-        vc.isFromTableView = true
-        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
             return 1
         }
-        return arrayData.count
+        if isFromCoreData {
+            return arrayData.count
+        } else {
+            return events.count
+        }
+       
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "CustomTableViewCell") as? CustomTableViewCell {
-            let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
-            cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
-            
-            if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
-            }
-            if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)mg/dl"
-            }
-            if cell.iconImageView.image == UIImage(systemName: "figure.run") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)min"
-            }
-            if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
-                cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)g"
+            if isFromCoreData {
+                let sfSymbolString = arrayData.reversed()[indexPath.row].sfSymbolIdentifier
+                cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
+                
+                if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)mg/dl"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "figure.run") {
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)min"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)g"
 
-            }
-            cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
-            cell.typeLabel.text = arrayData.reversed()[indexPath.row].type
+                }
+                cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
+                cell.typeLabel.text = arrayData.reversed()[indexPath.row].type
 
-            return cell
+                return cell
+            } else {
+                
+                let sfSymbolString = events.reversed()[indexPath.row].sfSymbolIdentifier
+                cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
+                
+                if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
+                    cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)U"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
+                    cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)mg/dl"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "figure.run") {
+                    cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)min"
+                }
+                if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
+                    cell.valueLabel.text = "\(events.reversed()[indexPath.row].value!)g"
+
+                }
+                cell.dateAndTimeLabel.text = events.reversed()[indexPath.row].dateAndTime
+                cell.typeLabel.text = events.reversed()[indexPath.row].type
+
+                return cell
+            }
         }
             
         return UITableViewCell()
@@ -251,6 +436,13 @@ extension HomeViewController: DetailViewControllerDelegate {
                   sfSimbolString: String) {
         self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
         
+        event.id = nil
+        event.sfSymbolIdentifier = sfSimbolString
+        event.value = value
+        event.dateAndTime = dateValue
+        event.type = type
+        self.createEvent()
+        
         self.homeTableView.reloadData()
     }
     
@@ -258,15 +450,82 @@ extension HomeViewController: DetailViewControllerDelegate {
                     newSfSymbolIdentifier: String,
                     newTitle: String,
                     newDateAndTime: String,
-                    newType: String) {
+                    newType: String,
+                    id: Int
+                    ) {
         self.updateItem(item: item,
                    newSfSymbolIdentifier: newSfSymbolIdentifier,
                    newTitle: newTitle,
                    newDateAndTime: newDateAndTime,
-                   newType: newType)
+                   newType: newType
+            
+        )
+        
+        event.id = id
+        event.sfSymbolIdentifier = newSfSymbolIdentifier
+        event.value = newTitle
+        event.dateAndTime = newDateAndTime
+        event.type = newType
+        
+        self.updateEvent()
         
         self.homeTableView.reloadData()
     }
+    
+    // MARK: CRUD API FUNCTIONS
+    
+    func getAllEvents() {
+        eventService.getAllEvents() { (res) in
+            switch res {
+            case .success(let events):
+                self.events = events
+                self.homeTableView.reloadData()
+            case .failure(_):
+                self.isFromCoreData = true
+                self.getAllItems()
+                
+            }
+        }
+    }
+    
+    
+    @objc func createEvent() {
+        eventService.createEvent(event: event){ (res) in
+                switch res {
+                case .success(_):
+                    self.getAllEvents()
+                case .failure(_):
+                    print("error")
+                }
+            }
+        
+    }
+    
+    @objc func updateEvent() {
+        eventService.updateEvent(id: event.id!, event: event){ (res) in
+                switch res {
+                case .success(_):
+                    self.getAllEvents()
+                case .failure(_):
+                    print("error")
+                }
+            }
+        
+    }
+    
+    @objc func deleteEvent(id: Int) {
+        eventService.deleteEvent(id: id) { (res) in
+            switch res {
+            case .success(_):
+                self.getAllEvents()
+            case .failure(_):
+                self.isFromCoreData = true
+               
+            }
+        }
+    }
+    
+    
     
     // MARK: CORE DATA
     

@@ -9,7 +9,7 @@ import UIKit
 
 protocol DetailViewControllerDelegate: AnyObject {
     func saveData(dateValue: String, value: String, type: String, sfSimbolString: String)
-    func updateData(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String)
+    func updateData(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String, id: Int)
 }
 
 class DetailViewController: UIViewController {
@@ -28,8 +28,10 @@ class DetailViewController: UIViewController {
     var isFromTableView: Bool!
     var indexPath: EventItem!
     var isCarbs = false
+    var eventId: Int?
 
     // MARK: IBOutlets
+    @IBOutlet weak var doneTypingButton: UIButton!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var valueLabel: UILabel!
     @IBOutlet weak var typePickerView: UIPickerView?
@@ -41,6 +43,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        doneTypingButton.isHidden = true
         
         valueTextField.delegate = self
         typeTextField.delegate = self
@@ -105,6 +109,7 @@ class DetailViewController: UIViewController {
             saveButton.isEnabled = true
             
         }
+        doneTypingButton.isHidden = true
         self.view.endEditing(true)
     }
     
@@ -112,6 +117,14 @@ class DetailViewController: UIViewController {
         if let textValue = valueTextField.text, let typeText = typeTextField.text {
             save(value: textValue, type: typeText)
         }
+    }
+    
+    
+    @IBAction func doneButtonTapped(_ sender: Any) {
+        valueTextField.resignFirstResponder()
+        doneTypingButton.isHidden = true
+        
+       
     }
     
     private func save(value: String, type: String) {
@@ -123,7 +136,9 @@ class DetailViewController: UIViewController {
                                  newSfSymbolIdentifier: sfSymbolIdentifier,
                                  newTitle: value,
                                  newDateAndTime: dateFormatter.string(from: myDatePicker.date),
-                                 newType: pickerIdentifierText ?? pickerOptionChoosed)
+                                 newType: pickerIdentifierText ?? pickerOptionChoosed,
+                                 id: eventId ?? 0
+            )
             self.navigationController?.popViewController(animated: true)
         } else {
             delegate?.saveData(dateValue: dateFormatter.string(from: myDatePicker.date),
@@ -145,6 +160,9 @@ extension DetailViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        
+        
+        
         if typeTextField == textField {
             typePickerView?.isHidden = false
             
@@ -159,6 +177,7 @@ extension DetailViewController: UITextFieldDelegate {
         }
         
         if textField == valueTextField {
+            doneTypingButton.isHidden = false
             return true
         }
         
