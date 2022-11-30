@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     var event = Event()
     var events: [Event] = []
     var isFromCoreData = false
+    var isSynced = true
 
     
     var isBottomSheetShown = false
@@ -442,6 +443,7 @@ extension HomeViewController: DetailViewControllerDelegate {
         event.dateAndTime = dateValue
         event.type = type
         self.createEvent()
+        self.createEvents()
         
         self.homeTableView.reloadData()
     }
@@ -474,19 +476,90 @@ extension HomeViewController: DetailViewControllerDelegate {
     
     // MARK: CRUD API FUNCTIONS
     
+    
     func getAllEvents() {
         eventService.getAllEvents() { (res) in
             switch res {
             case .success(let events):
-                self.events = events
-                self.homeTableView.reloadData()
+                if self.isSynced {
+                    //self.deleteAllEvents()
+                    self.eventService.deleteAllEvents(){ (res) in
+                            switch res {
+                            case .success(_):
+                                print("sucesso delete events")
+                                self.eventService.createEvents(event: events){ (res) in
+                                        switch res {
+                                        case .success(_):
+                                            self.events = events
+                                            print("sucesso create events")
+                                            self.eventService.getAllEvents() { (res) in
+                                                switch res {
+                                                case .success(let events):
+                                                    self.events = events
+                                                    self.homeTableView.reloadData()
+                                                    self.isFromCoreData = false
+                                                    self.isSynced = false
+                                                case .failure(_):
+                                                    self.isFromCoreData = true
+                                                    self.getAllItems()
+                                                    
+                                                    
+                                                }
+                                            }
+                                            
+                                        case .failure(_):
+                                            print("error create events")
+                                        }
+                                    }
+                                print("success")
+                            case .failure(_):
+                                print("error delete all events")
+                            }
+                        }
+                    
+                    
+                    //self.createEvents()
+                    
+                    
+                } else {
+                    self.eventService.getAllEvents() { (res) in
+                        switch res {
+                        case .success(let events):
+                            self.events = events
+                            self.homeTableView.reloadData()
+                        case .failure(_):
+                            self.isFromCoreData = true
+                            self.getAllItems()
+                            
+                        }
+                    }
+                    
+                }
+                
             case .failure(_):
                 self.isFromCoreData = true
                 self.getAllItems()
                 
             }
         }
+        
+        
     }
+    
+    
+//    func getAllEvents() {
+//        eventService.getAllEvents() { (res) in
+//            switch res {
+//            case .success(let events):
+//                self.events = events
+//                self.homeTableView.reloadData()
+//            case .failure(_):
+//                self.isFromCoreData = true
+//                self.getAllItems()
+//
+//            }
+//        }
+//    }
     
     
     @objc func createEvent() {
@@ -495,11 +568,41 @@ extension HomeViewController: DetailViewControllerDelegate {
                 case .success(_):
                     self.getAllEvents()
                 case .failure(_):
-                    print("error")
+                    print("error create event")
                 }
             }
         
     }
+    
+    
+    @objc func createEvents() {
+        eventService.createEvents(event: events){ (res) in
+                switch res {
+                case .success(_):
+                    //self.getAllEvents()
+                    print("sucesso create events")
+                case .failure(_):
+                    print("error create events")
+                }
+            }
+        
+    }
+    
+    
+    @objc func deleteAllEvents() {
+        eventService.deleteAllEvents(){ (res) in
+                switch res {
+                case .success(_):
+                    //self.getAllEvents()
+                    print("success")
+                case .failure(_):
+                    print("error delete all events")
+                }
+            }
+        
+    }
+    
+    
     
     @objc func updateEvent() {
         eventService.updateEvent(id: event.id!, event: event){ (res) in
@@ -507,7 +610,7 @@ extension HomeViewController: DetailViewControllerDelegate {
                 case .success(_):
                     self.getAllEvents()
                 case .failure(_):
-                    print("error")
+                    print("error update event")
                 }
             }
         
