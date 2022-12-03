@@ -3,7 +3,7 @@
     <entity name="EventItem" representedClassName="EventItem" syncable="YES">
         <attribute name="dateAndTime" optional="YES" attributeType="String"/>
         <attribute name="sfSymbolIdentifier" optional="YES" attributeType="String"/>
-        <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="String"/>
     </entity>
 </model>

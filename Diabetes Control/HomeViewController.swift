@@ -55,19 +55,19 @@ class HomeViewController: UIViewController {
             number += 1
             
             if event.sfSymbolIdentifier == "drop.fill" {
-                csvHead.append("Blood Sugar, \(event.title!), mg/dl, \(event.type!), \(event.dateAndTime!)\n")
+                csvHead.append("Blood Sugar, \(event.value!), mg/dl, \(event.type!), \(event.dateAndTime!)\n")
             }
             
             if event.sfSymbolIdentifier == "syringe.fill" {
-                csvHead.append("Insulin, \(event.title!), U, \(event.type!), \(event.dateAndTime!)\n")
+                csvHead.append("Insulin, \(event.value!), U, \(event.type!), \(event.dateAndTime!)\n")
             }
             
             if event.sfSymbolIdentifier == "fork.knife.circle.fill" {
-                csvHead.append("Carbs, \(event.title!), grams, none, \(event.dateAndTime!)\n")
+                csvHead.append("Carbs, \(event.value!), grams, none, \(event.dateAndTime!)\n")
             }
             
             if event.sfSymbolIdentifier == "figure.run" {
-                csvHead.append("Exercise, \(event.title!), minutes, \(event.type!), \(event.dateAndTime!)\n")
+                csvHead.append("Exercise, \(event.value!), minutes, \(event.type!), \(event.dateAndTime!)\n")
             }
             
         
@@ -211,7 +211,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
         } else {
-            if arrayData.reversed()[indexPath.row].title == events.reversed()[indexPath.row].value {
+            if arrayData.reversed()[indexPath.row].value == events.reversed()[indexPath.row].value {
                 let item = arrayData.reversed()[indexPath.row]
                 let eventId = self.events.reversed()[indexPath.row].id
             
@@ -242,7 +242,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             
             let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
             let vc = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-            vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].title
+            vc.valueTextFieldText = self.arrayData.reversed()[indexPath.row].value
             vc.dateString = self.arrayData.reversed()[indexPath.row].dateAndTime
             vc.pickerOptionChoosed = self.arrayData.reversed()[indexPath.row].type
             let sfSymbolString = self.arrayData.reversed()[indexPath.row].sfSymbolIdentifier
@@ -385,16 +385,16 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.iconImageView.image = UIImage(systemName: sfSymbolString!)
                 
                 if cell.iconImageView.image == UIImage(systemName: "syringe.fill") {
-                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)U"
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].value!)U"
                 }
                 if cell.iconImageView.image == UIImage(systemName: "drop.fill") {
-                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)mg/dl"
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].value!)mg/dl"
                 }
                 if cell.iconImageView.image == UIImage(systemName: "figure.run") {
-                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)min"
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].value!)min"
                 }
                 if cell.iconImageView.image == UIImage(systemName: "fork.knife.circle.fill") {
-                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].title!)g"
+                    cell.valueLabel.text = "\(arrayData.reversed()[indexPath.row].value!)g"
 
                 }
                 cell.dateAndTimeLabel.text = arrayData.reversed()[indexPath.row].dateAndTime
@@ -443,7 +443,7 @@ extension HomeViewController: DetailViewControllerDelegate {
         event.dateAndTime = dateValue
         event.type = type
         self.createEvent()
-        self.createEvents()
+       
         
         self.homeTableView.reloadData()
     }
@@ -487,7 +487,7 @@ extension HomeViewController: DetailViewControllerDelegate {
                             switch res {
                             case .success(_):
                                 print("sucesso delete events")
-                                self.eventService.createEvents(event: events){ (res) in
+                                self.eventService.createEvents(event: self.arrayData){ (res) in
                                         switch res {
                                         case .success(_):
                                             self.events = events
@@ -502,11 +502,11 @@ extension HomeViewController: DetailViewControllerDelegate {
                                                 case .failure(_):
                                                     self.isFromCoreData = true
                                                     self.getAllItems()
-                                                    
-                                                    
+
+
                                                 }
                                             }
-                                            
+
                                         case .failure(_):
                                             print("error create events")
                                         }
@@ -516,11 +516,11 @@ extension HomeViewController: DetailViewControllerDelegate {
                                 print("error delete all events")
                             }
                         }
-                    
-                    
+
+
                     //self.createEvents()
-                    
-                    
+
+
                 } else {
                     self.eventService.getAllEvents() { (res) in
                         switch res {
@@ -530,23 +530,23 @@ extension HomeViewController: DetailViewControllerDelegate {
                         case .failure(_):
                             self.isFromCoreData = true
                             self.getAllItems()
-                            
+
                         }
                     }
-                    
+
                 }
-                
+
             case .failure(_):
                 self.isFromCoreData = true
                 self.getAllItems()
-                
+
             }
         }
-        
-        
+
+
     }
     
-    
+//
 //    func getAllEvents() {
 //        eventService.getAllEvents() { (res) in
 //            switch res {
@@ -576,7 +576,7 @@ extension HomeViewController: DetailViewControllerDelegate {
     
     
     @objc func createEvents() {
-        eventService.createEvents(event: events){ (res) in
+        eventService.createEvents(event: self.arrayData){ (res) in
                 switch res {
                 case .success(_):
                     //self.getAllEvents()
@@ -649,7 +649,7 @@ extension HomeViewController: DetailViewControllerDelegate {
     func createItem(sfSymbolIdentifier: String, title: String, dateAndTime: String, type: String) {
         let newItem = EventItem(context: context)
         newItem.sfSymbolIdentifier = sfSymbolIdentifier
-        newItem.title = title
+        newItem.value = title
         newItem.dateAndTime = dateAndTime
         newItem.type = type
         do {
@@ -675,7 +675,7 @@ extension HomeViewController: DetailViewControllerDelegate {
     
     func updateItem(item: EventItem, newSfSymbolIdentifier: String, newTitle: String, newDateAndTime: String, newType: String) {
         item.sfSymbolIdentifier = newSfSymbolIdentifier
-        item.title = newTitle
+        item.value = newTitle
         item.dateAndTime = newDateAndTime
         item.type = newType
         

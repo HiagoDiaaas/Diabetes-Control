@@ -41,7 +41,7 @@ class EventService {
     }
     
     
-    func createEvents(event: [Event], completion: @escaping (Result<Int, Error>) -> ()) {
+    func createEvents(event: [EventItem], completion: @escaping (Result<Int, Error>) -> ()) {
         let encoder = JSONEncoder()
         let data = try! encoder.encode(event)
         var request = URLRequest(url: URL(string: "http://localhost:8080/addEvents")!)

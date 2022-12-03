@@ -18,7 +18,7 @@ extension EventItem {
 
     @NSManaged public var sfSymbolIdentifier: String?
     @NSManaged public var dateAndTime: String?
-    @NSManaged public var title: String?
+    @NSManaged public var value: String?
     @NSManaged public var type: String?
 
 }
