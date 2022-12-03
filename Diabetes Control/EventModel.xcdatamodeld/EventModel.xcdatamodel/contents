@@ -6,4 +6,9 @@
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="SyncStatus" representedClassName="SyncStatus" syncable="YES">
+        <attribute name="isEventDeleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isEventNew" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="isEventUpdated" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+    </entity>
 </model>

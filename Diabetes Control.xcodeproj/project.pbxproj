@@ -20,6 +20,8 @@
 		F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F32893932906ABB100EA00CA /* EventModel.xcdatamodeld */; };
 		F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */; };
 		F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */; };
+		F365A383293AD93D0000F982 /* SyncStatus+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F365A381293AD93D0000F982 /* SyncStatus+CoreDataClass.swift */; };
+		F365A384293AD93D0000F982 /* SyncStatus+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F365A382293AD93D0000F982 /* SyncStatus+CoreDataProperties.swift */; };
 		F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */; };
 		F36CD93A291D342000F06CAF /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36CD939291D342000F06CAF /* Event.swift */; };
 		F36CD93C291D35EF00F06CAF /* EventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36CD93B291D35EF00F06CAF /* EventService.swift */; };
@@ -42,6 +44,8 @@
 		F32893942906ABB100EA00CA /* EventModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EventModel.xcdatamodel; sourceTree = "<group>"; };
 		F328939B2906B8BF00EA00CA /* EventItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataClass.swift"; sourceTree = "<group>"; };
 		F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EventItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		F365A381293AD93D0000F982 /* SyncStatus+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncStatus+CoreDataClass.swift"; sourceTree = "<group>"; };
+		F365A382293AD93D0000F982 /* SyncStatus+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SyncStatus+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		F36B1AC328FEF4D900DA20C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F36CD939291D342000F06CAF /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F36CD93B291D35EF00F06CAF /* EventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventService.swift; sourceTree = "<group>"; };
@@ -80,6 +84,7 @@
 			children = (
 				F322DE1B29280F29006066D3 /* Login */,
 				F328939F2906B8D100EA00CA /* Entity */,
+				F365A385293AD9510000F982 /* SyncEntity */,
 				8DB51CF428F9F596004CA34C /* AppDelegate.swift */,
 				8DB51CF628F9F596004CA34C /* SceneDelegate.swift */,
 				8DB51CF828F9F596004CA34C /* HomeViewController.swift */,
@@ -129,6 +134,15 @@
 				F328939C2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		F365A385293AD9510000F982 /* SyncEntity */ = {
+			isa = PBXGroup;
+			children = (
+				F365A381293AD93D0000F982 /* SyncStatus+CoreDataClass.swift */,
+				F365A382293AD93D0000F982 /* SyncStatus+CoreDataProperties.swift */,
+			);
+			path = SyncEntity;
 			sourceTree = "<group>";
 		};
 		F36CD938291D340500F06CAF /* Model */ = {
@@ -219,6 +233,7 @@
 			files = (
 				8DB51CF928F9F596004CA34C /* HomeViewController.swift in Sources */,
 				F36CD93A291D342000F06CAF /* Event.swift in Sources */,
+				F365A384293AD93D0000F982 /* SyncStatus+CoreDataProperties.swift in Sources */,
 				F32893952906ABB100EA00CA /* EventModel.xcdatamodeld in Sources */,
 				F328939E2906B8BF00EA00CA /* EventItem+CoreDataProperties.swift in Sources */,
 				F322DE2029280F29006066D3 /* ViewController.swift in Sources */,
@@ -227,6 +242,7 @@
 				F36B1AC428FEF4D900DA20C5 /* DetailViewController.swift in Sources */,
 				F328939D2906B8BF00EA00CA /* EventItem+CoreDataClass.swift in Sources */,
 				8DB51D0A28F9F66E004CA34C /* CustomTableViewCell.swift in Sources */,
+				F365A383293AD93D0000F982 /* SyncStatus+CoreDataClass.swift in Sources */,
 				F36CD93C291D35EF00F06CAF /* EventService.swift in Sources */,
 				8DB51CF728F9F596004CA34C /* SceneDelegate.swift in Sources */,
 			);

@@ -15,8 +15,9 @@ class HomeViewController: UIViewController {
     var eventService = EventService()
     var event = Event()
     var events: [Event] = []
+    var syncArray = [SyncStatus]()
     var isFromCoreData = false
-    var isSynced = true
+    
 
     
     var isBottomSheetShown = false
@@ -27,6 +28,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getAllItems()
+        getAllSyncItems()
         //resetAllRecords(in: "EventItem")
         getAllEvents()
         customTableView()
@@ -206,6 +208,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             if editingStyle == .delete {
 
                 self.deleteItem(item: item)
+                self.createSyncItem(isEventDeleted: true, isEventNew: false, isEventUpdated: false)
                
 
             }
@@ -435,17 +438,34 @@ extension HomeViewController: DetailViewControllerDelegate {
                   value: String,
                   type: String,
                   sfSimbolString: String) {
-        self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
         
-        event.id = nil
-        event.sfSymbolIdentifier = sfSimbolString
-        event.value = value
-        event.dateAndTime = dateValue
-        event.type = type
-        self.createEvent()
-       
+        if isFromCoreData {
+            self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
+            
+            event.id = nil
+            event.sfSymbolIdentifier = sfSimbolString
+            event.value = value
+            event.dateAndTime = dateValue
+            event.type = type
+            self.createSyncItem(isEventDeleted: false, isEventNew: true, isEventUpdated: false)
+           
+            
+            self.homeTableView.reloadData()
+            
+        } else {
+            self.createItem(sfSymbolIdentifier: sfSimbolString, title: value, dateAndTime: dateValue, type: type)
+            
+            event.id = nil
+            event.sfSymbolIdentifier = sfSimbolString
+            event.value = value
+            event.dateAndTime = dateValue
+            event.type = type
+            self.createEvent()
+           
+            
+            self.homeTableView.reloadData()
+        }
         
-        self.homeTableView.reloadData()
     }
     
     func updateData(item: EventItem,
@@ -455,23 +475,47 @@ extension HomeViewController: DetailViewControllerDelegate {
                     newType: String,
                     id: Int
                     ) {
-        self.updateItem(item: item,
-                   newSfSymbolIdentifier: newSfSymbolIdentifier,
-                   newTitle: newTitle,
-                   newDateAndTime: newDateAndTime,
-                   newType: newType
+        if isFromCoreData {
+            self.updateItem(item: item,
+                       newSfSymbolIdentifier: newSfSymbolIdentifier,
+                       newTitle: newTitle,
+                       newDateAndTime: newDateAndTime,
+                       newType: newType
+                
+            )
             
-        )
+            event.id = id
+            event.sfSymbolIdentifier = newSfSymbolIdentifier
+            event.value = newTitle
+            event.dateAndTime = newDateAndTime
+            event.type = newType
+            
+            self.createSyncItem(isEventDeleted: false, isEventNew: false, isEventUpdated: true)
+            
+            
+            self.homeTableView.reloadData()
+            
+        } else {
+            self.updateItem(item: item,
+                       newSfSymbolIdentifier: newSfSymbolIdentifier,
+                       newTitle: newTitle,
+                       newDateAndTime: newDateAndTime,
+                       newType: newType
+                
+            )
+            
+            event.id = id
+            event.sfSymbolIdentifier = newSfSymbolIdentifier
+            event.value = newTitle
+            event.dateAndTime = newDateAndTime
+            event.type = newType
+            
+            self.updateEvent()
+            
+            self.homeTableView.reloadData()
+        }
         
-        event.id = id
-        event.sfSymbolIdentifier = newSfSymbolIdentifier
-        event.value = newTitle
-        event.dateAndTime = newDateAndTime
-        event.type = newType
         
-        self.updateEvent()
-        
-        self.homeTableView.reloadData()
     }
     
     // MARK: CRUD API FUNCTIONS
@@ -481,8 +525,7 @@ extension HomeViewController: DetailViewControllerDelegate {
         eventService.getAllEvents() { (res) in
             switch res {
             case .success(let events):
-                if self.isSynced {
-                    //self.deleteAllEvents()
+                if self.syncArray.count > 0 {
                     self.eventService.deleteAllEvents(){ (res) in
                             switch res {
                             case .success(_):
@@ -498,7 +541,8 @@ extension HomeViewController: DetailViewControllerDelegate {
                                                     self.events = events
                                                     self.homeTableView.reloadData()
                                                     self.isFromCoreData = false
-                                                    self.isSynced = false
+                                                    self.resetAllSyncRecords(in: "SyncStatus")
+                                                    self.getAllSyncItems()
                                                 case .failure(_):
                                                     self.isFromCoreData = true
                                                     self.getAllItems()
@@ -630,7 +674,56 @@ extension HomeViewController: DetailViewControllerDelegate {
     
     
     
-    // MARK: CORE DATA
+    // MARK: CORE DATA SYNC STATUS
+    
+    func getAllSyncItems() {
+        do {
+            syncArray = try context.fetch(SyncStatus.fetchRequest())
+            
+            DispatchQueue.main.async {
+                self.homeTableView.reloadData()
+            }
+        }
+        
+        catch {
+            print("Failed to get all sync items")
+        }
+    }
+    
+    func createSyncItem(isEventDeleted: Bool, isEventNew: Bool, isEventUpdated: Bool) {
+        let newItem = SyncStatus(context: context)
+        newItem.isEventDeleted = isEventDeleted
+        newItem.isEventNew = isEventNew
+        newItem.isEventUpdated = isEventUpdated
+        do {
+            try context.save()
+            getAllSyncItems()
+            
+        }
+        catch {
+            print("Failed to create SyncItem")
+            
+        }
+    }
+    
+    func resetAllSyncRecords(in SyncStatus : String)
+        {
+            let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: SyncStatus)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+            do
+            {
+                try context.execute(deleteRequest)
+                try context.save()
+            }
+            catch
+            {
+                print ("There was an error")
+            }
+        }
+    
+ 
+
+    // MARK: CORE DATA EVENT ITEM
     
     func getAllItems() {
         do {
