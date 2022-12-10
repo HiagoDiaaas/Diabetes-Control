@@ -1,6 +1,11 @@
 import UIKit
 import CoreData
 
+
+
+
+
+
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var bottomView: UIView!
@@ -17,7 +22,7 @@ class HomeViewController: UIViewController {
     var events: [Event] = []
     var syncArray = [SyncStatus]()
     var isFromCoreData = false
-    
+    var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
     
     var isBottomSheetShown = false
@@ -27,13 +32,19 @@ class HomeViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        eventService.delegate = self
+        activityIndicator.color = .white
+        activityIndicator.frame = CGRect(x: 0, y: self.navigationController!.navigationBar.frame.maxY, width: homeTableView.bounds.width, height: homeTableView.bounds.height)
+        let scale = CGAffineTransform(scaleX: 2.5, y: 2.5)
+        activityIndicator.transform = scale
+        customTableView()
+        navigationController?.navigationBar.barStyle = .black
+       
+        
         getAllItems()
         getAllSyncItems()
         //resetAllRecords(in: "EventItem")
         getAllEvents()
-        customTableView()
-        navigationController?.navigationBar.barStyle = .black
-        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -190,6 +201,8 @@ class HomeViewController: UIViewController {
     private func customTableView() {
         homeTableView.dataSource = self
         homeTableView.delegate = self
+        homeTableView.addSubview(activityIndicator)
+        
         let textFieldCell = UINib(nibName: "CustomTableViewCell",
                                       bundle: nil)
         self.homeTableView.register(textFieldCell,
@@ -374,6 +387,17 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
             return 1
         }
         if isFromCoreData {
+//            if arrayData.count == 0 {
+//                    // Show the spinner in the first cell
+//                activityIndicator.startAnimating()
+//                view.isUserInteractionEnabled = false
+//                navigationController?.navigationBar.isUserInteractionEnabled = false
+//                } else {
+//                    // Hide the spinner in other cells
+//                    activityIndicator.stopAnimating()
+//                    view.isUserInteractionEnabled = true
+//                    navigationController?.navigationBar.isUserInteractionEnabled = true
+//                }
             return arrayData.count
         } else {
             return events.count
@@ -561,10 +585,6 @@ extension HomeViewController: DetailViewControllerDelegate {
                             }
                         }
 
-
-                    //self.createEvents()
-
-
                 } else {
                     self.eventService.getAllEvents() { (res) in
                         switch res {
@@ -582,14 +602,18 @@ extension HomeViewController: DetailViewControllerDelegate {
 
             case .failure(_):
                 self.isFromCoreData = true
+                self.activityIndicator.stopAnimating()
+                self.view.isUserInteractionEnabled = true
+                self.navigationController?.navigationBar.isUserInteractionEnabled = true
                 self.getAllItems()
+                
 
             }
         }
 
 
     }
-    
+//    
 //
 //    func getAllEvents() {
 //        eventService.getAllEvents() { (res) in
@@ -604,7 +628,7 @@ extension HomeViewController: DetailViewControllerDelegate {
 //            }
 //        }
 //    }
-    
+
     
     @objc func createEvent() {
         eventService.createEvent(event: event){ (res) in
@@ -795,4 +819,24 @@ extension HomeViewController: DetailViewControllerDelegate {
                 print ("There was an error")
             }
         }
+}
+
+
+extension HomeViewController: EventServiceDelegate {
+    
+    func didStartLoadingData() {
+        activityIndicator.startAnimating()
+        view.isUserInteractionEnabled = false
+        navigationController?.navigationBar.isUserInteractionEnabled = false
+            
+    }
+    
+    func didFinishLoadingData() {
+        activityIndicator.stopAnimating()
+        view.isUserInteractionEnabled = true
+        navigationController?.navigationBar.isUserInteractionEnabled = true
+      
+    }
+    
+   
 }

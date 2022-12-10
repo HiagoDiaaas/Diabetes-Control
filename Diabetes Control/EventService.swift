@@ -1,11 +1,21 @@
 import UIKit
 import Alamofire
 
+protocol EventServiceDelegate: AnyObject {
+    func didStartLoadingData()
+    func didFinishLoadingData()
+}
+
 class EventService {
     
+   
     var url = "http://localhost:8080/"
+    weak var delegate: EventServiceDelegate?
     
+   
+ 
     func getAllEvents(completion: @escaping (Result<[Event], Error>) -> ()) {
+        self.delegate?.didStartLoadingData()
         var request = URLRequest(url: URL(string: "http://localhost:8080/events")!)
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -18,9 +28,13 @@ class EventService {
             do {
                 let events = try JSONDecoder().decode([Event].self, from: response.data!)
                 completion(.success(events))
-                } catch let jsonError {
+                
+            } catch let jsonError {
                 completion(.failure(jsonError))
+                
             }
+            self.delegate?.didFinishLoadingData()
+       
         }.resume()
     }
     
@@ -102,3 +116,13 @@ class EventService {
     }
 }
 
+
+//extension EventService: ActivityIndicatorDelegate {
+//    func startActivityIndicator() {
+//        homeViewController.activityIndicator.startAnimating()
+//    }
+//
+//    func stopActivityIndicator() {
+//        homeViewController.activityIndicator.stopAnimating()
+//    }
+//}
